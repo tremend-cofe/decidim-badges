@@ -74,7 +74,7 @@ module Decidim
           private
 
           def enforce_permission_to_update_resource
-            enforce_permission_to :update, :organization, organization: current_organization
+            enforce_permission_to :update, :badge, organization: current_organization
           end
 
           def badge
