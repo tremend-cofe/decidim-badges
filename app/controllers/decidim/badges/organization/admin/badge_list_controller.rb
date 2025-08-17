@@ -36,7 +36,7 @@ module Decidim
           private
 
           def enforce_permission_to_update_resource
-            enforce_permission_to :update, :organization, organization: current_organization
+            enforce_permission_to :update, :badges, organization: current_organization
           end
 
           def content_blocks_title = t("edit", scope: "decidim.badges.admin.badge_list")
