@@ -8,7 +8,6 @@ class AddBadges < ActiveRecord::Migration[5.2]
       t.jsonb :earning_methods, null: false, default: {}
       t.string :gamifiable_type
       t.integer :gamifiable_id
-      t.string :manifest_name, null: false, index: true
       t.datetime :published_at, index: true
       t.integer :weight
       t.jsonb :levels, default: {}

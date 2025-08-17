@@ -12,7 +12,7 @@ module Decidim
 
         routes do
           resource :badge_list, only: [:edit, :update], controller: :badge_list do
-            resources :badges, only: [:edit, :update, :destroy, :create], controller: :badge
+            resources :badges, controller: :badge
           end
 
           root to: "badge_list#edit"
