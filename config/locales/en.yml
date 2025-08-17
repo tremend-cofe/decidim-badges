@@ -1,11 +1,14 @@
 ---
 en:
+
   decidim:
     badges:
       organization:
         admin:
           badge:
             form:
+              select_participatory_space: Select Participatory space
+              participatory_space_label: Participatory space conditional
               level_name_placeholder: The number of actions when this level of the badhe is granted
               level_name_label: Level %{level}
               earning_methods_help: Add on each line the steps required to obtain this badge
