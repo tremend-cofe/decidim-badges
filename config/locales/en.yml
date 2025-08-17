@@ -1,2 +1,13 @@
 ---
 en:
+  decidim:
+    badges:
+      admin:
+        badge_list:
+          active: Active badges
+          add: Add badges
+          confirm_delete: Are you sure you want to destroy the badge?
+          edit: Edit badges
+          inactive: Inactive badges
+        menu:
+          badges: Badges
