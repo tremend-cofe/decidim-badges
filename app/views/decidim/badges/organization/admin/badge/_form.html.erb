@@ -13,6 +13,15 @@
       </div>
 
       <div class="row column">
+        <%= form.select :participatory_space,
+                        options_for_select(participatory_space_options, form.object.participatory_space),
+                        { include_blank: t('.select_participatory_space') },
+                        { aria: { label: t('.participatory_space_label') } } %>
+
+      </div>
+
+
+      <div class="row column">
         <%= form.upload(
               :file,
               dimensions_info: badge.attached_uploader(:file).dimensions_info,

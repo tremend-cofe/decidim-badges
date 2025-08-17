@@ -12,9 +12,9 @@ class AddBadges < ActiveRecord::Migration[5.2]
       t.integer :weight
       t.jsonb :levels, default: {}
 
-      # t.string :gamifiable_type
-      # t.integer :gamifiable_id
-
+      t.belongs_to :participatory_space, index: { name: :badge_space_condition }, polymorphic: true, optional: true
+      t.belongs_to :decidim_component, index: true, foreign_key: true, optional: true
+      t.string :action_name
     end
   end
 end
