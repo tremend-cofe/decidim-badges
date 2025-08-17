@@ -31,7 +31,7 @@ module Decidim
                         :available_manifests, :active_content_blocks_title,
                         :resource_sort_url, :inactive_content_blocks_title,
                         :inactive_blocks, :active_blocks, :resource_content_block_cell,
-                        :content_block_destroy_confirmation_text
+                        :content_block_destroy_confirmation_text, :resource_new_url
 
           private
 
@@ -65,6 +65,7 @@ module Decidim
 
           def resource_content_block_cell = "decidim/badges/admin/organization_badge"
 
+          def resource_new_url = decidim_admin_badges.new_badge_list_badge_path
         end
       end
     end

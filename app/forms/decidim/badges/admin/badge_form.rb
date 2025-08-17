@@ -15,6 +15,8 @@ module Decidim
         validates :file, presence: true, unless: :persisted?
 
         validates :name, :description, :earning_methods, translatable_presence: true
+
+        alias :gamifiable :current_organization
       end
     end
   end
