@@ -14,7 +14,7 @@ module Decidim
           def new
             enforce_permission_to_update_resource
             @form = form(Decidim::Badges::Admin::BadgeForm).instance
-            @badge = Decidim::Badges::Badge.new(gamifiable: current_organization)
+            @badge = Decidim::Badges::Badge.new(organization: current_organization)
           end
 
           def create
@@ -82,7 +82,7 @@ module Decidim
           end
 
           def badges
-            @badges ||= Decidim::Badges::Badge.where(gamifiable: current_organization)
+            @badges ||= Decidim::Badges::Badge.where(organization: current_organization)
           end
 
           def edit_resource_landing_page_path = decidim_admin_badges.root_path

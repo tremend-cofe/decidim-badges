@@ -60,7 +60,7 @@ module Decidim
           def inactive_blocks = badges.unpublished
 
           def badges
-            @badges ||= Decidim::Badges::Badge.where(gamifiable: current_organization)
+            @badges ||= Decidim::Badges::Badge.where(organization: current_organization)
           end
 
           def resource_content_block_cell = "decidim/badges/admin/organization_badge"
