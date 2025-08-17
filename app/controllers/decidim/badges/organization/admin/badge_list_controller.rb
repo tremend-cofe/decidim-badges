@@ -33,7 +33,6 @@ module Decidim
                         :inactive_blocks, :active_blocks, :resource_content_block_cell,
                         :content_block_destroy_confirmation_text
 
-          
           private
 
           def enforce_permission_to_update_resource
