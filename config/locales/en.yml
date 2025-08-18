@@ -7,6 +7,9 @@ en:
         admin:
           badge:
             form:
+              select_component_id: Select the component
+              choose_component: Choose component
+              component_label: Component
               select_participatory_space: Select Participatory space
               participatory_space_label: Participatory space conditional
               level_name_placeholder: The number of actions when this level of the badhe is granted

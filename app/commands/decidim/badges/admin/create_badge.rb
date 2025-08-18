@@ -5,7 +5,7 @@ module Decidim
     module Admin
       class CreateBadge < Decidim::Commands::CreateResource
         fetch_form_attributes :name, :organization, :earning_methods, :description, :levels,
-                              :participatory_space_type, :participatory_space_id, :component
+                              :participatory_space_type, :participatory_space_id, :decidim_component_id
         fetch_file_attributes :file
 
         def resource_class = Decidim::Badges::Badge

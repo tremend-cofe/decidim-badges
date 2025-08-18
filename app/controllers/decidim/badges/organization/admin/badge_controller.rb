@@ -10,7 +10,7 @@ module Decidim
           include Decidim::SanitizeHelper
 
           helper_method :badge, :badge_edit_text, :resource_landing_page_content_block_path, :submit_button_text,
-                        :badge_add_text, :participatory_space_options
+                        :badge_add_text, :participatory_space_options, :grouped_components_options
 
           def new
             enforce_permission_to_update_resource
@@ -108,6 +108,21 @@ module Decidim
               ]
             end.sort_by(&:first)
           end
+
+          def grouped_components_options
+            groups = {}
+
+            current_organization.public_participatory_spaces.map do |space|
+              components = space.components.published.map do |component|
+                [ translated_attribute(component.name), component.id]
+              end
+
+              groups[[translated_attribute(space.title), "(#{space.class.name.demodulize.underscore.humanize})"].join(" ")] = components
+            end
+
+            groups
+          end
+
         end
       end
     end
