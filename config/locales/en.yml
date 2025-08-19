@@ -1,6 +1,11 @@
 ---
 en:
   decidim:
+    gamification:
+      badges:
+        index:
+          space_constraint_html: Perform the action in <strong>%{space_link}</strong> space
+          component_constraint_html: Perform the action in <strong>%{component_link}</strong> component
     badges:
       organization:
         admin:
