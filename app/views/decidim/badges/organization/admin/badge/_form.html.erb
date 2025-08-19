@@ -27,7 +27,8 @@
                           form.object.decidim_component_id
                         ),
                         {
-                          prompt: t('.select_component_id')
+                          prompt: t('.select_component_id'),
+                          include_blank: t('.select_component_id'), 
                         },
                         {
                           aria: { label: t('.component_label') },
@@ -94,17 +95,16 @@
       this.hideAll();
       this.showSpecific([label]);
     }
-
   }
 
   const manager = new OptgroupManager('badge_decidim_component_id');
-
 
   document.addEventListener('DOMContentLoaded', function () {
     let space = document.getElementById("badge_participatory_space");
     space.addEventListener("change", function () {
       const selectedOption = this.options[this.selectedIndex];
       const textContent = selectedOption.textContent;
+      manager.select.value = "";
       manager.hideAll(); // Hide all optgroups
       manager.showOnly(textContent);
     });
