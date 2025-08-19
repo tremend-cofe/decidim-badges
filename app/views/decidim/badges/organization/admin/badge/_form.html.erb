@@ -27,8 +27,7 @@
                           form.object.decidim_component_id
                         ),
                         {
-                          prompt: t('.select_component_id'),
-                          include_blank: t('.select_component_id'), 
+                          include_blank: t('.select_component_id'),
                         },
                         {
                           aria: { label: t('.component_label') },
@@ -37,6 +36,20 @@
       </div>
 
       <div class="row column">
+
+        <%= form.select :action_name,
+                        grouped_options_for_select(
+                          grouped_actions_options,
+                          form.object.action_name
+                        ),
+                        {
+                          prompt: t('.select_component_id'),
+                          include_blank: t('.select_component_id'),
+                        },
+                        {
+                          aria: { label: t('.component_label') },
+                          class: 'form-control'
+                        } %>
       </div>
 
 
@@ -97,24 +110,38 @@
     }
   }
 
-  const manager = new OptgroupManager('badge_decidim_component_id');
+  const component_manager = new OptgroupManager('badge_decidim_component_id');
+  const action_manager = new OptgroupManager('badge_action_name');
 
   document.addEventListener('DOMContentLoaded', function () {
     let space = document.getElementById("badge_participatory_space");
     space.addEventListener("change", function () {
       const selectedOption = this.options[this.selectedIndex];
       const textContent = selectedOption.textContent;
-      manager.select.value = "";
-      manager.hideAll(); // Hide all optgroups
-      manager.showOnly(textContent);
+      component_manager.select.value = "";
+      component_manager.hideAll(); // Hide all optgroups
+      component_manager.showOnly(textContent);
     });
 
     if (space.selectedIndex > 0) {
       const selectedOption = space.options[space.selectedIndex];
       const textContent = selectedOption.textContent;
-      manager.hideAll(); // Hide all optgroups
-      manager.showOnly(textContent);
+      component_manager.hideAll(); // Hide all optgroups
+      component_manager.showOnly(textContent);
     }
+
+    let component = document.getElementById("badge_decidim_component_id");
+    component.addEventListener("change", function () {
+      action_manager.select.value = "";
+      action_manager.showOnly(component.value);
+    });
+
+    if (component.selectedIndex > 0) {
+      action_manager.hideAll(); // Hide all optgroups
+      action_manager.showOnly(component.value);
+    }
+
+
   });
 
 </script>

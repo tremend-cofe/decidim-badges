@@ -10,7 +10,7 @@ module Decidim
           include Decidim::SanitizeHelper
 
           helper_method :badge, :badge_edit_text, :resource_landing_page_content_block_path, :submit_button_text,
-                        :badge_add_text, :participatory_space_options, :grouped_components_options
+                        :badge_add_text, :participatory_space_options, :grouped_components_options, :grouped_actions_options
 
           def new
             enforce_permission_to_update_resource
@@ -100,29 +100,35 @@ module Decidim
 
           def resource_landing_page_content_block_path = decidim_admin_badges.badge_list_badge_path(params[:id])
 
-          def participatory_space_options
-            current_organization.public_participatory_spaces.map do |space|
-              [
-                [translated_attribute(space.title), "(#{space.class.name.demodulize.underscore.humanize})"].join(" "),
-                [space.class.name.to_s, space.id].join("#")
-              ]
-            end.sort_by(&:first)
-          end
+          def participatory_space_options = dropdown_options.fetch(:participatory_spaces, []).sort_by(&:first)
 
-          def grouped_components_options
-            groups = {}
+          def grouped_components_options = dropdown_options.fetch(:components, [])
+
+          def grouped_actions_options = dropdown_options.fetch(:actions, [])
+
+          def dropdown_options
+            return @dropdown_options if defined?(@dropdown_options)
+
+            @dropdown_options = { participatory_spaces: [], components: {}, actions: {} }
 
             current_organization.public_participatory_spaces.map do |space|
-              components = space.components.published.map do |component|
-                [ translated_attribute(component.name), component.id]
+              space_id = [translated_attribute(space.title), "(#{space.class.name.demodulize.underscore.humanize})"].join(" ")
+              @dropdown_options[:participatory_spaces].push [space_id, [space.class.name.to_s, space.id].join("#")]
+
+              @dropdown_options[:components][space_id] = []
+              space.components.published.map do |component|
+                @dropdown_options[:components][space_id].push([translated_attribute(component.name), component.id])
+
+
+                @dropdown_options[:actions][component.id] = []
+                component.manifest.actions.each do |action|
+                  @dropdown_options[:actions][component.id].push [ action, action ]
+                end
               end
-
-              groups[[translated_attribute(space.title), "(#{space.class.name.demodulize.underscore.humanize})"].join(" ")] = components
             end
 
-            groups
+            @dropdown_options
           end
-
         end
       end
     end
