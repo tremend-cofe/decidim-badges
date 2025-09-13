@@ -31,7 +31,7 @@ module Decidim
                         :available_manifests, :active_content_blocks_title,
                         :resource_sort_url, :inactive_content_blocks_title,
                         :inactive_blocks, :active_blocks, :resource_content_block_cell,
-                        :content_block_destroy_confirmation_text, :resource_new_url
+                        :content_block_destroy_confirmation_text, :resource_create_url
 
           private
 
@@ -53,6 +53,8 @@ module Decidim
             @available_manifests ||= Decidim::Badges.registry.all
           end
 
+          def resource_create_url(manifest_name) = decidim_admin_badges.new_badge_list_badge_path(manifest_name:)
+
           def resource_sort_url = decidim_admin_badges.badge_list_path
 
           def active_blocks = badges.published
@@ -65,7 +67,6 @@ module Decidim
 
           def resource_content_block_cell = "decidim/badges/admin/organization_badge"
 
-          def resource_new_url = decidim_admin_badges.new_badge_list_badge_path
         end
       end
     end

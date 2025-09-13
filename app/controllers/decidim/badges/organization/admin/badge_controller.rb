@@ -14,8 +14,8 @@ module Decidim
 
           def new
             enforce_permission_to_update_resource
-            @form = form(Decidim::Badges::Admin::BadgeForm).instance
-            @badge = Decidim::Badges::Badge.new(organization: current_organization)
+            @badge = Decidim::Badges::Badge.new(organization: current_organization, manifest_name: params[:manifest_name])
+            @form = form(Decidim::Badges::Admin::BadgeForm).from_model(badge)
           end
 
           def edit
@@ -118,12 +118,6 @@ module Decidim
               @dropdown_options[:components][space_id] = []
               space.components.published.map do |component|
                 @dropdown_options[:components][space_id].push([translated_attribute(component.name), component.id])
-
-
-                @dropdown_options[:actions][component.id] = []
-                component.manifest.actions.each do |action|
-                  @dropdown_options[:actions][component.id].push [ action, action ]
-                end
               end
             end
 
