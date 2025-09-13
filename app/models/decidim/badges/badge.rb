@@ -22,6 +22,12 @@ module Decidim
         Decidim::Badges::AdminLog::BadgePresenter
       end
 
+      # Public: Finds the manifest this component is associated to.
+      #
+      # Returns a ComponentManifest.
+      def manifest
+        Decidim::Badges.find_manifest(manifest_name)
+      end
     end
   end
 end

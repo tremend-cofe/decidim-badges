@@ -13,7 +13,7 @@ module Decidim
         attribute :participatory_space_id
         attribute :levels, Hash
         attribute :decidim_component_id, Integer
-        attribute :action_name, String
+        attribute :manifest_name, String
 
         translatable_attribute :name, String
         translatable_attribute :description, String
