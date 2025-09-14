@@ -31,7 +31,6 @@ module Decidim
 
       initializer "decidim_badges.register_badges" do
         Decidim::Badges.register_manifest(:followers) do |badge|
-          # badge.levels = [1, 15, 30, 60, 100]
           badge.reset = ->(user) { user.followers.count }
         end
       end
@@ -40,9 +39,6 @@ module Decidim
         if Decidim.module_installed?(:proposals)
 
           Decidim::Badges.register_manifest(:proposals) do |badge|
-            # badge.levels = [1, 5, 10, 30, 60]
-            # badge.valid_for = [:user]
-
             badge.reset = lambda { |model|
               Decidim::Coauthorship.where(
                 coauthorable_type: "Decidim::Proposals::Proposal",
@@ -52,9 +48,6 @@ module Decidim
           end
 
           Decidim::Badges.register_manifest(:accepted_proposals) do |badge|
-            # badge.levels = [1, 5, 15, 30, 50]
-            # badge.valid_for = [:user]
-
             badge.reset = lambda { |model|
               proposal_ids = Decidim::Coauthorship.where(
                 coauthorable_type: "Decidim::Proposals::Proposal",
@@ -66,7 +59,6 @@ module Decidim
           end
 
           Decidim::Badges.register_manifest(:proposal_votes) do |badge|
-            # badge.levels = [5, 15, 50, 100, 500]
             badge.reset = lambda { |user|
               Decidim::Proposals::ProposalVote.where(author: user).select(:decidim_proposal_id).distinct.count
             }
@@ -78,7 +70,6 @@ module Decidim
       initializer "decidim_badges.register_badges.meetings", after: "decidim_badges.register_badges" do
         if Decidim.module_installed?(:meetings)
           Decidim::Badges.register_manifest(:meetings_created) do |badge|
-            badge.action_description = "User has created meetings in the selected component"
             badge.reset = lambda do |user|
               Decidim::Comments::Comment.where(author: user).distinct.count(:decidim_root_commentable_id)
             end
@@ -124,10 +115,6 @@ module Decidim
         if Decidim.module_installed?(:initiatives)
 
           Decidim::Badges.register_manifest(:initiatives) do |badge|
-            badge.levels = [1, 5, 15, 30, 50]
-
-            badge.valid_for = [:user]
-
             badge.reset = lambda { |model|
               Decidim::Initiative.where(
                 author: model
