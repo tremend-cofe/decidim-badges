@@ -23,6 +23,10 @@ module Decidim
 
       initializer "decidim_badges.add_badges" do
         Rails.application.config.to_prepare do
+          Decidim::Gamification.singleton_class.send(:prepend, Decidim::Badges::Overwrites::Gamification)
+          Decidim::Gamification::BadgeScorer.prepend(Decidim::Badges::Overwrites::BadgeScorer)
+          Decidim::Gamification::BadgeStatus.prepend(Decidim::Badges::Overwrites::BadgeStatus)
+
           Decidim::BadgeCell.prepend(Decidim::Badges::Overwrites::BadgeCell)
           Decidim::BadgesCell.prepend(Decidim::Badges::Overwrites::BadgesCell)
           Decidim::Gamification::BadgesController.prepend(Decidim::Badges::Overwrites::BadgesController)
@@ -38,7 +42,6 @@ module Decidim
 
       initializer "decidim_badges.register_badges.proposals", after: "decidim_badges.register_badges" do
         if Decidim.module_installed?(:proposals)
-
           Decidim::Badges.register_manifest(:proposals) do |badge|
             badge.reset = lambda { |model|
               Decidim::Coauthorship.where(
