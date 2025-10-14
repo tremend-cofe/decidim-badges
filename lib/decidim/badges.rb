@@ -13,6 +13,10 @@ module Decidim
 
     module Overwrites
       autoload :BadgesController, "decidim/badges/overwrites/badges_controller"
+      autoload :VoteProposal, "decidim/badges/overwrites/vote_proposal"
+      autoload :UnvoteProposal, "decidim/badges/overwrites/unvote_proposal"
+      autoload :JoinMeeting, "decidim/badges/overwrites/join_meeting"
+      autoload :LeaveMeeting, "decidim/badges/overwrites/leave_meeting"
     end
 
     # Semi-private: The BadgeRegistry to register manifests of badges to.
@@ -45,6 +49,40 @@ module Decidim
     # otherwise.
     def self.register_manifest(name, &)
       registry.register(name, &)
+    end
+
+    def self.compute_score(manifest_name, user:, participatory_space: nil, component: nil)
+      return unless user.is_a?(Decidim::UserBaseEntity)
+
+      raise ArgumentError, "The Organization mismatch in badge" if participatory_space.present? && user.organization != participatory_space.organization
+      raise ArgumentError, "The Organization mismatch in badge" if component.present? && user.organization != component.organization
+
+      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
+      if badge.present? && badge.manifest.reset.present?
+        value = badge.manifest.reset.call(user, participatory_space, component)
+
+        Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:).update!(value:)
+      end
+    end
+
+    def self.increment_score(manifest_name, user:, participatory_space: nil, component: nil)
+      return unless user.is_a?(Decidim::UserBaseEntity)
+
+      raise ArgumentError, "The Organization mismatch in badge" if participatory_space.present? && user.organization != participatory_space.organization
+      raise ArgumentError, "The Organization mismatch in badge" if component.present? && user.organization != component.organization
+
+      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
+      Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:).increment!(:value, touch: true) if badge.present?
+    end
+
+    def self.decrement_score(manifest_name, user:, participatory_space: nil, component: nil)
+      return unless user.is_a?(Decidim::UserBaseEntity)
+
+      raise ArgumentError, "The Organization mismatch in badge" if participatory_space.present? && user.organization != participatory_space.organization
+      raise ArgumentError, "The Organization mismatch in badge" if component.present? && user.organization != component.organization
+
+      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
+      Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:).decrement!(:value, touch: true) if badge.present?
     end
   end
 end

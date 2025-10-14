@@ -24,7 +24,7 @@ module Decidim
 
       # Public: Finds the manifest this component is associated to.
       #
-      # Returns a ComponentManifest.
+      # Returns a Decidim::Badges::BadgeManifest.
       def manifest
         Decidim::Badges.find_manifest(manifest_name)
       end
