@@ -10,7 +10,7 @@ module Decidim
     class Engine < ::Rails::Engine
       isolate_namespace Decidim::Badges
 
-      initializer "decidim_badges.add_cells_view_paths", before: "decidim_core.add_cells_view_paths"  do
+      initializer "decidim_badges.add_cells_view_paths", before: "decidim_core.add_cells_view_paths" do
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::Badges::Engine.root}/app/cells")
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::Badges::Engine.root}/app/views")
       end
@@ -23,11 +23,12 @@ module Decidim
 
       initializer "decidim_badges.add_badges" do
         Rails.application.config.to_prepare do
+          Decidim::BadgeCell.prepend(Decidim::Badges::Overwrites::BadgeCell)
+          Decidim::BadgesCell.prepend(Decidim::Badges::Overwrites::BadgesCell)
           Decidim::Gamification::BadgesController.prepend(Decidim::Badges::Overwrites::BadgesController)
           Decidim::Gamification::BadgesController.helper(Decidim::ResourceHelper)
         end
       end
-
 
       initializer "decidim_badges.register_badges" do
         Decidim::Badges.register_manifest(:followers) do |badge|
@@ -113,7 +114,6 @@ module Decidim
 
       initializer "decidim_badges.register_badges.initiatives", after: "decidim_badges.register_badges" do
         if Decidim.module_installed?(:initiatives)
-
           Decidim::Badges.register_manifest(:initiatives) do |badge|
             badge.reset = lambda { |model|
               Decidim::Initiative.where(

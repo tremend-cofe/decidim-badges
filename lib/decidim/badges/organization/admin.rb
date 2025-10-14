@@ -5,7 +5,6 @@ module Decidim
     module Organization
       # This is the engine that runs on the public interface of `Badges`.
       module Admin
-
       end
     end
   end
