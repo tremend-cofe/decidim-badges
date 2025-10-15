@@ -52,5 +52,50 @@ module Decidim
     def self.register_manifest(name, &)
       registry.register(name, &)
     end
+
+    def self.compute_score(manifest_name, user:, participatory_space: nil, component: nil)
+      return unless user.is_a?(Decidim::UserBaseEntity)
+
+      validate!(user:, participatory_space:, component:)
+
+      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
+
+      return if badge.blank?
+
+      if badge.manifest.reset.present?
+        value = badge.manifest.reset.call(user, participatory_space, component)
+
+        Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:).update!(value:)
+      end
+    end
+
+    def self.validate!(user:, participatory_space: nil, component: nil)
+      raise ArgumentError, "The Organization mismatch in badge" if participatory_space.present? && user.organization != participatory_space.organization
+      raise ArgumentError, "The Organization mismatch in badge" if component.present? && user.organization != component.organization
+    end
+
+    def self.increment_score(manifest_name, user:, participatory_space: nil, component: nil)
+      return unless user.is_a?(Decidim::UserBaseEntity)
+
+      validate!(user:, participatory_space:, component:)
+
+      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
+
+      score = Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:)
+      score.update(value: (score.value + 1))
+    end
+
+    def self.decrement_score(manifest_name, user:, participatory_space: nil, component: nil)
+      return unless user.is_a?(Decidim::UserBaseEntity)
+
+      validate!(user:, participatory_space:, component:)
+
+      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
+
+      return if badge.blank?
+
+      score = Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:)
+      score.update(value: (score.value - 1))
+    end
   end
 end
