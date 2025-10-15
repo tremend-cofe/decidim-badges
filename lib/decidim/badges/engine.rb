@@ -21,7 +21,7 @@ module Decidim
         end
       end
 
-      initializer "decidim_badges.add_badges" do
+      initializer "decidim_badges.add_overrides" do
         Rails.application.config.to_prepare do
           Decidim::Gamification.singleton_class.send(:prepend, Decidim::Badges::Overwrites::Gamification)
           Decidim::Gamification::BadgeScorer.prepend(Decidim::Badges::Overwrites::BadgeScorer)
@@ -33,10 +33,13 @@ module Decidim
           Decidim::Gamification::BadgesController.helper(Decidim::ResourceHelper)
 
           Decidim::Comments::DeleteComment.prepend(Decidim::Badges::Overwrites::DeleteComment) if Decidim.module_installed?(:comments)
+
+          Decidim::CreateFollow.prepend Decidim::Badges::Overwrites::CreateFollow
+          Decidim::DeleteFollow.prepend Decidim::Badges::Overwrites::DeleteFollow
         end
       end
 
-      initializer "decidim_badges.register_badges.comment_created", after: "decidim_badges.register_badges" do
+      initializer "decidim_badges.register_badges.comment_created" do
         if Decidim.module_installed?(:comments)
           Decidim::Badges.register_manifest(:comment_created) do |badge|
             badge.reset = lambda { |author, participatory_space, component|
@@ -75,6 +78,20 @@ module Decidim
             Decidim::Badges.compute_score(:comment_created, user:, participatory_space: data[:resource].participatory_space)
             Decidim::Badges.compute_score(:comment_created, user:, participatory_space: data[:resource].participatory_space, component: data[:resource].component)
           end
+        end
+      end
+
+      initializer "decidim_badges.register_badges.user_follow" do
+        Decidim::Badges.register_manifest(:followers) do |badge|
+          badge.reset = ->(user, _participatory_space, _component) { user.followers_count }
+        end
+
+        ActiveSupport::Notifications.subscribe("decidim.create_follow:after") do |_event_name, data|
+          Decidim::Badges.compute_score(:followers, user: data[:resource]) if data[:resource].is_a?(Decidim::User)
+        end
+
+        ActiveSupport::Notifications.subscribe("decidim.delete_follow:after") do |_event_name, data|
+          Decidim::Badges.compute_score(:followers, user: data[:resource]) if data[:resource].is_a?(Decidim::User)
         end
       end
     end

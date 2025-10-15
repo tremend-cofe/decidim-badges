@@ -20,6 +20,9 @@ module Decidim
       autoload :BadgeStatus, "decidim/badges/overwrites/badge_status"
       autoload :Gamification, "decidim/badges/overwrites/gamification"
       autoload :DeleteComment, "decidim/badges/overwrites/delete_comment"
+
+      autoload :CreateFollow, "decidim/badges/overwrites/create_follow"
+      autoload :DeleteFollow, "decidim/badges/overwrites/delete_follow"
     end
 
     # Semi-private: The BadgeRegistry to register manifests of badges to.
