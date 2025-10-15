@@ -31,98 +31,49 @@ module Decidim
           Decidim::BadgesCell.prepend(Decidim::Badges::Overwrites::BadgesCell)
           Decidim::Gamification::BadgesController.prepend(Decidim::Badges::Overwrites::BadgesController)
           Decidim::Gamification::BadgesController.helper(Decidim::ResourceHelper)
+
+          Decidim::Comments::DeleteComment.prepend(Decidim::Badges::Overwrites::DeleteComment) if Decidim.module_installed?(:comments)
         end
       end
 
-      initializer "decidim_badges.register_badges" do
-        Decidim::Badges.register_manifest(:followers) do |badge|
-          badge.reset = ->(user) { user.followers.count }
-        end
-      end
-
-      initializer "decidim_badges.register_badges.proposals", after: "decidim_badges.register_badges" do
-        if Decidim.module_installed?(:proposals)
-          Decidim::Badges.register_manifest(:proposals) do |badge|
-            badge.reset = lambda { |model|
-              Decidim::Coauthorship.where(
-                coauthorable_type: "Decidim::Proposals::Proposal",
-                author: model
-              ).count
-            }
-          end
-
-          Decidim::Badges.register_manifest(:accepted_proposals) do |badge|
-            badge.reset = lambda { |model|
-              proposal_ids = Decidim::Coauthorship.where(
-                coauthorable_type: "Decidim::Proposals::Proposal",
-                author: model
-              ).select(:coauthorable_id)
-
-              Decidim::Proposals::Proposal.where(id: proposal_ids).accepted.count
-            }
-          end
-
-          Decidim::Badges.register_manifest(:proposal_votes) do |badge|
-            badge.reset = lambda { |user|
-              Decidim::Proposals::ProposalVote.where(author: user).select(:decidim_proposal_id).distinct.count
-            }
-          end
-
-        end
-      end
-
-      initializer "decidim_badges.register_badges.meetings", after: "decidim_badges.register_badges" do
-        if Decidim.module_installed?(:meetings)
-          Decidim::Badges.register_manifest(:meetings_created) do |badge|
-            badge.reset = lambda do |user|
-              Decidim::Comments::Comment.where(author: user).distinct.count(:decidim_root_commentable_id)
-            end
-          end
-
-          Decidim::Badges.register_manifest(:attended_meetings) do |badge|
-            badge.reset = lambda do |user|
-              Decidim::Meetings::Registration.where(user:).count
-            end
-          end
-        end
-      end
-
-      initializer "decidim_badges.register_badges.comments", after: "decidim_badges.register_badges" do
+      initializer "decidim_badges.register_badges.comment_created", after: "decidim_badges.register_badges" do
         if Decidim.module_installed?(:comments)
-          Decidim::Badges.register_manifest(:comments_created) do |badge|
-            badge.reset = lambda do |user|
-              debates = Decidim::Comments::Comment.where(
-                author: user,
-                decidim_root_commentable_type: "Decidim::Debates::Debate"
-              )
-              debates.pluck(:decidim_root_commentable_id).uniq.count
-            end
-          end
-        end
-      end
+          Decidim::Badges.register_manifest(:comment_created) do |badge|
+            badge.reset = lambda { |author, participatory_space, component|
+              comments = Decidim::Comments::Comment.not_deleted.not_hidden.where(author:)
 
-      initializer "decidim_badges.register_badges.debates", after: "decidim_badges.register_badges" do
-        if Decidim.module_installed?(:debates)
-          Decidim::Badges.register_manifest(:commented_debates) do |badge|
-            badge.reset = lambda do |user|
-              debates = Decidim::Comments::Comment.where(
-                author: user,
-                decidim_root_commentable_type: "Decidim::Debates::Debate"
-              )
-              debates.pluck(:decidim_root_commentable_id).uniq.count
-            end
-          end
-        end
-      end
+              comments.where(participatory_space:) if participatory_space.present?
 
-      initializer "decidim_badges.register_badges.initiatives", after: "decidim_badges.register_badges" do
-        if Decidim.module_installed?(:initiatives)
-          Decidim::Badges.register_manifest(:initiatives) do |badge|
-            badge.reset = lambda { |model|
-              Decidim::Initiative.where(
-                author: model
-              ).published.count
+              if component.present?
+                root_commentables = begin
+                  component.manifest.data_portable_entities.collect do |entity|
+                    entity.constantize.where(component: component).all
+                  end
+                rescue StandardError
+                  []
+                end
+
+                comments.where(root_commentable: root_commentables)
+              end
+
+              comments.distinct.count(:decidim_root_commentable_id)
             }
+          end
+
+          ActiveSupport::Notifications.subscribe("decidim.comments.create_comment:after") do |_event_name, data|
+            user = data[:resource].author
+
+            Decidim::Badges.compute_score(:comment_created, user:)
+            Decidim::Badges.compute_score(:comment_created, user:, participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:comment_created, user:, participatory_space: data[:resource].participatory_space, component: data[:resource].component)
+          end
+
+          ActiveSupport::Notifications.subscribe("decidim.comments.delete_comment:after") do |_event_name, data|
+            user = data[:resource].author
+
+            Decidim::Badges.compute_score(:comment_created, user:)
+            Decidim::Badges.compute_score(:comment_created, user:, participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:comment_created, user:, participatory_space: data[:resource].participatory_space, component: data[:resource].component)
           end
         end
       end
