@@ -37,6 +37,7 @@ module Decidim
           if Decidim.module_installed?(:proposals)
             Decidim::Proposals::PublishProposal.prepend(Decidim::Badges::Overwrites::PublishProposal)
             Decidim::Proposals::WithdrawProposal.prepend(Decidim::Badges::Overwrites::WithdrawProposal)
+            Decidim::Proposals::Admin::NotifyProposalAnswer.prepend(Decidim::Badges::Overwrites::NotifyProposalAnswer)
           end
 
           Decidim::CreateFollow.prepend Decidim::Badges::Overwrites::CreateFollow
@@ -101,7 +102,7 @@ module Decidim
         end
       end
 
-      initializer "decidim_badges.register_badges.proposal_created", after: "decidim_badges.register_badges" do
+      initializer "decidim_badges.register_badges.proposal_created" do
         if Decidim.module_installed?(:proposals)
           Decidim::Badges.register_manifest(:proposal_created) do |badge|
             badge.reset = lambda { |author, participatory_space, component|
@@ -109,9 +110,14 @@ module Decidim
               conditions.merge!(component: component) if component.present?
               conditions.merge!(component: { participatory_space: }) if participatory_space.present?
 
-              proposal = Decidim::Proposals::Proposal.published.not_withdrawn.not_hidden.joins(:coauthorships, :component).where(**conditions)
-
-              proposal.distinct.count
+              Decidim::Proposals::Proposal
+                .joins(:coauthorships, :component)
+                .published
+                .not_withdrawn
+                .not_hidden
+                .where(**conditions)
+                .distinct
+                .count
             }
           end
 
@@ -125,6 +131,34 @@ module Decidim
             Decidim::Badges.compute_score(:proposal_created, user: data[:creator])
             Decidim::Badges.compute_score(:proposal_created, user: data[:creator], participatory_space: data[:resource].participatory_space)
             Decidim::Badges.compute_score(:proposal_created, user: data[:creator], participatory_space: data[:resource].participatory_space, component: data[:resource].component)
+          end
+        end
+      end
+
+      initializer "decidim_badges.register_badges.proposal_accepted" do
+        if Decidim.module_installed?(:proposals)
+          Decidim::Badges.register_manifest(:proposal_accepted) do |badge|
+            badge.reset = lambda { |author, participatory_space, component|
+              conditions = { decidim_coauthorships: { author: } }
+              conditions.merge!(component: component) if component.present?
+              conditions.merge!(component: { participatory_space: }) if participatory_space.present?
+
+              Decidim::Proposals::Proposal
+                .joins(:coauthorships, :component)
+                .published
+                .accepted
+                .not_withdrawn
+                .not_hidden
+                .where(**conditions)
+                .distinct
+                .count
+            }
+          end
+
+          ActiveSupport::Notifications.subscribe("decidim.proposals.proposal_state_changed") do |_event_name, data|
+            Decidim::Badges.compute_score(:proposal_accepted, user: data[:creator])
+            Decidim::Badges.compute_score(:proposal_accepted, user: data[:creator], participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:proposal_accepted, user: data[:creator], participatory_space: data[:resource].participatory_space, component: data[:resource].component)
           end
         end
       end
