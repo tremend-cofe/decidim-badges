@@ -42,6 +42,10 @@ module Decidim
             Decidim::Proposals::Admin::NotifyProposalAnswer.prepend(Decidim::Badges::Overwrites::NotifyProposalAnswer)
           end
 
+          if Decidim.module_installed?(:meetings)
+            Decidim::Meetings::WithdrawMeeting.prepend(Decidim::Badges::Overwrites::WithdrawMeeting)
+          end
+
           Decidim::CreateFollow.prepend Decidim::Badges::Overwrites::CreateFollow
           Decidim::DeleteFollow.prepend Decidim::Badges::Overwrites::DeleteFollow
         end
@@ -188,6 +192,40 @@ module Decidim
             Decidim::Badges.compute_score(:proposal_voted, user: data[:creator])
             Decidim::Badges.compute_score(:proposal_voted, user: data[:creator], participatory_space: data[:resource].participatory_space)
             Decidim::Badges.compute_score(:proposal_voted, user: data[:creator], participatory_space: data[:resource].participatory_space, component: data[:resource].component)
+          end
+        end
+      end
+
+      initializer "decidim_badges.register_badges.meeting_created" do
+        if Decidim.module_installed?(:meetings)
+          Decidim::Badges.register_manifest(:meeting_created) do |badge|
+            badge.reset = lambda { |author, participatory_space, component|
+              conditions = { author: }
+              conditions.merge!(component: component) if component.present?
+              conditions.merge!(decidim_components: { participatory_space: }) if participatory_space.present?
+
+              Decidim::Meetings::Meeting
+                .joins(:component)
+                .where(**conditions)
+                .published
+                .not_hidden
+                .not_withdrawn
+                .distinct
+                .count
+            }
+          end
+
+          ActiveSupport::Notifications.subscribe("decidim.meetings.create_meeting:after") do |_event_name, data|
+            user = data[:resource].author
+            Decidim::Badges.compute_score(:meeting_created, user:)
+            Decidim::Badges.compute_score(:meeting_created, user:, participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:meeting_created, user:, participatory_space: data[:resource].participatory_space, component: data[:resource].component)
+          end
+          ActiveSupport::Notifications.subscribe("decidim.meetings.withdraw_meeting:after") do |_event_name, data|
+            user = data[:resource].author
+            Decidim::Badges.compute_score(:meeting_created, user:)
+            Decidim::Badges.compute_score(:meeting_created, user:, participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:meeting_created, user:, participatory_space: data[:resource].participatory_space, component: data[:resource].component)
           end
         end
       end
