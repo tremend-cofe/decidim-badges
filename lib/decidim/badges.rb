@@ -24,6 +24,9 @@ module Decidim
       autoload :CreateFollow, "decidim/badges/overwrites/create_follow"
       autoload :DeleteFollow, "decidim/badges/overwrites/delete_follow"
 
+      autoload :VoteProposal, "decidim/badges/overwrites/vote_proposal"
+      autoload :UnvoteProposal, "decidim/badges/overwrites/unvote_proposal"
+      autoload :PublishProposal, "decidim/badges/overwrites/publish_proposal"
       autoload :PublishProposal, "decidim/badges/overwrites/publish_proposal"
       autoload :WithdrawProposal, "decidim/badges/overwrites/withdraw_proposal"
       autoload :NotifyProposalAnswer, "decidim/badges/overwrites/notify_proposal_answer"
