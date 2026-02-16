@@ -4,7 +4,7 @@ module Decidim
   # This holds the decidim-meetings version.
   module Badges
     def self.version
-      "0.30.1"
+      "0.31.1"
     end
   end
 end

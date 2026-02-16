@@ -1,3 +1,5 @@
+<% append_javascript_pack_tag "decidim_badges_admin" %>
+
 <div class="form__wrapper">
   <div class="card pt-4">
     <div class="card-section">
@@ -17,7 +19,13 @@
           <%= form.select :participatory_space,
                           options_for_select(participatory_space_options, form.object.participatory_space),
                           { include_blank: t('.select_participatory_space') },
-                          { aria: { label: t('.participatory_space_label') } } %>
+                          {
+                            aria: { label: t('.participatory_space_label') },
+                            data: {
+                              controller: "badge-participatory-space-selector",
+                              component_manager: :badge_decidim_component_id
+                            }
+                          } %>
 
         </div>
 
@@ -35,58 +43,6 @@
                             class: 'form-control'
                           } %>
         </div>
-
-        <script>
-          class OptgroupManager {
-            constructor(selectId) {
-              this.select = document.getElementById(selectId);
-              this.optgroups = this.select.querySelectorAll('optgroup');
-            }
-
-            hideAll() {
-              this.optgroups.forEach(optgroup => {
-                optgroup.style.display = 'none';
-              });
-            }
-
-            showSpecific(labels) {
-              labels.forEach(label => {
-                const optgroup = this.select.querySelector(`optgroup[label="${label}"]`);
-                if (optgroup) {
-                  optgroup.style.display = 'block';
-                }
-              });
-            }
-
-            showOnly(label) {
-              this.hideAll();
-              this.showSpecific([label]);
-            }
-          }
-
-          const component_manager = new OptgroupManager('badge_decidim_component_id');
-
-          document.addEventListener('DOMContentLoaded', function () {
-            let space = document.getElementById("badge_participatory_space");
-            space.addEventListener("change", function () {
-              const selectedOption = this.options[this.selectedIndex];
-              const textContent = selectedOption.textContent;
-              component_manager.select.value = "";
-              component_manager.hideAll(); // Hide all optgroups
-              component_manager.showOnly(textContent);
-            });
-
-            if (space.selectedIndex > 0) {
-              const selectedOption = space.options[space.selectedIndex];
-              const textContent = selectedOption.textContent;
-              component_manager.hideAll(); // Hide all optgroups
-              component_manager.showOnly(textContent);
-            } else {
-              component_manager.hideAll();
-            }
-          });
-
-        </script>
       <% end %>
 
       <div class="row column">
