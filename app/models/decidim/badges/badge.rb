@@ -5,6 +5,7 @@ module Decidim
     class Badge < ApplicationRecord
       include Decidim::HasAttachments
       include Decidim::HasUploadValidations
+      include Decidim::Traceable
       include Decidim::Loggable
       include Decidim::Publicable
 
