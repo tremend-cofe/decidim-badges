@@ -3,33 +3,15 @@
 module Decidim
   module Badges
     module Admin
-      class DestroyBadge < Decidim::Command
-        # Public: Initializes the command.
-        #
-        # badge - The badge to destroy
-        def initialize(badge)
-          @badge = badge
-        end
-
-        # Executes the command. Broadcasts these events:
-        #
-        # - :ok when everything is valid.
-        # - :invalid if the form was not valid and we could not proceed.
-        #
-        # Returns nothing.
-        def call
-          destroy_badge
-          broadcast(:ok)
-        rescue StandardError
-          broadcast(:invalid)
-        end
-
+      class DestroyBadge < Decidim::Commands::DestroyResource
         private
 
-        def destroy_badge
-          Decidim.traceability.perform_action!("delete", @badge, current_user) do
-            @badge.destroy!
-          end
+        def extra_params
+          {
+            resource: {
+              title: resource.name
+            }
+          }
         end
       end
     end

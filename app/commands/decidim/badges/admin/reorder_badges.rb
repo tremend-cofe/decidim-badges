@@ -10,7 +10,9 @@ module Decidim
         end
 
         def call
-          reorder_steps
+          return broadcast(:invalid) if order.blank?
+
+          reorder_badges
           broadcast(:ok)
         end
 
@@ -18,7 +20,7 @@ module Decidim
 
         attr_reader :organization, :order
 
-        def reorder_steps
+        def reorder_badges
           transaction do
             reset_weights
             collection.reload
@@ -56,7 +58,7 @@ module Decidim
         # rubocop:enable Rails/SkipsModelValidations
 
         def collection
-          @collection ||= Decidim::Badges::Badge.where(organization: current_organization)
+          @collection ||= Decidim::Badges::Badge.where(organization:)
         end
       end
     end
