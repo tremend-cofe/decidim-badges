@@ -1,2 +1,66 @@
 ---
 en:
+  activemodel:
+    attributes:
+      badge:
+        file: File
+  decidim:
+    profiles:
+      show:
+        badges: Badges
+    gamification:
+      all_badges_link: See all available badges.
+      description: Badges are recognitions to participant actions and progress in the platform. As you start discovering, participating and interacting in the platform, you will earn different badges.
+      level: Level %{level}
+      reached_top: You have reached the top level for this badge.
+      title: What are the badges?
+      badges:
+        index:
+          badge_title: "%{name} badge"
+          how: How can you earn it
+          page_description: Badges are recognitions to participant actions and progress in the platform. As you start discovering, participating and interacting in the platform, you will earn different badges. Here is the list of badges and some ways you can earn them.
+          title: Badges
+          space_constraint_html: Perform the action in <strong>%{space_link}</strong> space
+          component_constraint_html: Perform the action in <strong>%{component_link}</strong> component
+    badges:
+      organization:
+        admin:
+          badge:
+            form:
+              select_component_id: Select the component
+              choose_component: Choose component
+              component_label: Component
+              select_participatory_space: Select Participatory space
+              participatory_space_label: Participatory space conditional
+              level_name_placeholder: The number of actions when this level of the badge is granted
+              level_name_label: Level %{level}
+              earning_methods_help: Add on each line the steps required to obtain this badge
+              submit: Save
+            add:
+              add: Add badge
+            edit:
+              edit: 'Edit "%{badge}" badge'
+      admin_log:
+        badge:
+          create: "%{user_name} created the badge %{resource_name}"
+          update: "%{user_name} updated the badge %{resource_name}"
+          delete: "%{user_name} deleted the badge %{resource_name}"
+      admin:
+        badge:
+          create:
+            error: There was a problem creating a new badge.
+            success: Badge created successfully.
+          update:
+            error: There was a problem updating the badge.
+            success: Badge updated successfully.
+          destroy:
+            error: There was a problem deleting the badge.
+            success: Badge removed successfully.
+        badge_list:
+          active: Active badges
+          add: Add badge
+          confirm_delete: Are you sure you want to destroy the badge?
+          edit: Edit badges
+          inactive: Inactive badges
+        menu:
+          badges: Badges

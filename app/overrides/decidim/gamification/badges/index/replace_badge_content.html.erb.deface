@@ -1,0 +1,44 @@
+<!-- replace "main.layout-1col"-->
+<main class="layout-1col cols-10">
+
+  <header class="text-center py-10">
+    <h1 class="title-decorator inline-block text-left mb-12">
+      <%= t ".title" %>
+    </h1>
+    <p class="text-lg text-gray-2">
+      <%= t ".page_description" %>
+    </p>
+  </header>
+
+  <% @badges.each do |badge| %>
+    <div class="mb-12">
+      <h2 class="h4 mb-4"><%= t ".badge_title", name: decidim_sanitize_translated(badge.name) %></h2>
+      <div class="grid grid-cols-10 text-gray-2 leading-relaxed">
+        <div class="col-span-2">
+          <div class="flex justify-center items-center">
+            <%= image_tag badge.file.url, class: "w-32", alt: decidim_sanitize_translated(badge.name) %>
+          </div>
+          <div class="text-center mt-4">
+            <strong><%= decidim_sanitize_translated(badge.name) %></strong>
+          </div>
+        </div>
+        <div class="col-span-7 ml-2">
+          <p><%= translated_attribute(badge.description) %></p>
+
+          <p class="mt-4"><strong><%= t ".how" %></strong></p>
+          <ol class="list-decimal">
+            <% if badge.participatory_space.present? %>
+              <li><%= t(".space_constraint_html", space_link: link_to(translated_attribute(badge.participatory_space.title), resource_locator(badge.participatory_space).url))%></li>
+            <% end %>
+            <% if badge.component.present? && badge.component.published? %>
+              <li><%= t(".component_constraint_html", component_link: link_to(translated_attribute(badge.component.name), Decidim::EngineRouter.main_proxy(badge.component).root_url))%></li>
+            <% end %>
+            <% translated_attribute(badge.earning_methods).split("\n").each do |condition| %>
+              <li><%= condition %></li>
+            <% end %>
+          </ol>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</main>

@@ -10,8 +10,7 @@ Gem::Specification.new do |s|
   s.email = ["contact@alecslupu.ro"]
   s.license = "AGPL-3.0-or-later"
   s.homepage = "https://decidim.org"
-  s.metadata = {
-  }
+  s.metadata = {}
   s.required_ruby_version = "~> 3.3"
 
   s.name = "decidim-badges"
@@ -27,5 +26,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "decidim-core", "~> 0.31.3"
   s.add_dependency "decidim-admin", "~> 0.31.3"
+  s.add_dependency "deface"
   s.add_development_dependency "decidim-dev", "~> 0.31.3"
 end

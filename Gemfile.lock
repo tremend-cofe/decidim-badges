@@ -4,6 +4,7 @@ PATH
     decidim-badges (0.31.3)
       decidim-admin (~> 0.31.3)
       decidim-core (~> 0.31.3)
+      deface
 
 GEM
   remote: https://rubygems.org/

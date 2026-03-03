@@ -78,4 +78,3 @@ test stable:
   extends: .test
   variables:
     DECIDIM_VERSION: "~> 0.31.0"
-
