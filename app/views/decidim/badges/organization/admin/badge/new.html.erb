@@ -1,0 +1,15 @@
+<% add_decidim_page_title(badge_add_text) %>
+<div class="item_show__header">
+  <h1 class="item_show__header-title">
+    <%= badge_add_text %>
+  </h1>
+</div>
+
+<div class="item__edit item__edit-1col">
+  <div class="item__edit-form">
+    <%= decidim_form_for(@form, html: { class: "form-defaults form edit_content_block" }, url: decidim_admin_badges.badge_list_badges_path) do |form| %>
+      <%= form.hidden_field :manifest_name, value: form.object.manifest_name %>
+      <%= render partial: "form", locals: { form: } %>
+    <% end %>
+  </div>
+</div>

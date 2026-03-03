@@ -1,0 +1,75 @@
+<% append_javascript_pack_tag "decidim_badges_admin" %>
+
+<div class="form__wrapper">
+  <div class="card pt-4">
+    <div class="card-section">
+
+      <div class="row column">
+        <%= form.translated :text_field, :name, autofocus: true, aria: { label: :name } %>
+      </div>
+      <div class="row column">
+        <%= form.translated :text_field, :description, aria: { label: :earning } %>
+      </div>
+      <div class="row column">
+        <%= form.translated :text_area, :earning_methods, aria: { label: :earning }, help_text: t(".earning_methods_help") %>
+      </div>
+
+      <% if Decidim::Badges.find_manifest(form.object.manifest_name).has_restrictions %>
+        <div class="row column">
+          <%= form.select :participatory_space,
+                          options_for_select(participatory_space_options, form.object.participatory_space),
+                          { include_blank: t('.select_participatory_space') },
+                          {
+                            aria: { label: t('.participatory_space_label') },
+                            data: {
+                              controller: "badge-participatory-space-selector",
+                              component_manager: :badge_decidim_component_id
+                            }
+                          } %>
+
+        </div>
+
+        <div class="row column">
+          <%= form.select :decidim_component_id,
+                          grouped_options_for_select(
+                            grouped_components_options,
+                            form.object.decidim_component_id
+                          ),
+                          {
+                            include_blank: t('.select_component_id'),
+                          },
+                          {
+                            aria: { label: t('.component_label') },
+                            class: 'form-control'
+                          } %>
+        </div>
+      <% end %>
+
+      <div class="row column">
+        <%= form.upload(
+              :file,
+              dimensions_info: badge.attached_uploader(:file).dimensions_info,
+              extension_allowlist: badge.attached_uploader(:file).extension_allowlist,
+              help_i18n_scope: "decidim.forms.file_help.icon",
+              button_class: "button button__sm button__transparent-secondary"
+            ) %>
+      </div>
+
+      <% 5.times do |i| %>
+        <div class="row column">
+          <%= form.text_field "levels[#{i}]",
+                              value: badge.levels&.dig(i.to_s),
+                              label: t('.level_name_label', level: i + 1),
+                              placeholder: t('.level_name_placeholder')
+          %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+<div class="item__edit-sticky">
+  <div class="item__edit-sticky-container">
+    <%= form.submit submit_button_text, class: "button button__sm button__secondary" %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div data-badge="<%= badge.id %>">
+  <div class="profile__badge">
+    <div class="profile__badge-outline" style="--value:<%= status.level_up %>;<%= "--color:var(--primary)" unless status.last_level? %>">
+      <div class="profile__badge-circle">
+        <%= image_tag badge.file.url, alt: decidim_sanitize_translated(badge.name) %>
+      </div>
+    </div>
+    <div class="profile__badge-title">
+      <%= level_title %>
+    </div>
+  </div>
+  <div class="profile__badge-name"><%= decidim_sanitize_translated(badge.name) %></div>
+  <div class="profile__badge-description"><%= decidim_sanitize_translated(badge.description) %></div>
+</div>
