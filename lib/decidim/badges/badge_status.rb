@@ -23,9 +23,9 @@ module Decidim
       #
       # Returns an Integer with the remaining score.
       def next_level_in
-        return nil if level >= @badge.levels.count
+        return nil if last_level?
 
-        @badge.levels["#{level}"].try(:to_i) - score
+        @badge.levels[level.to_s].try(:to_i) - score
       end
 
       # Public: Returns the score of a user on the badge.
@@ -33,6 +33,14 @@ module Decidim
       # Returns an Integer with the score.
       def score
         @score ||= Decidim::Badges::BadgeScore.where(user:, badge:).first_or_initialize(value: 0).value
+      end
+
+      def level_up
+        score.to_f / (score + next_level_in.to_f)
+      end
+
+      def last_level?
+        level >= @badge.levels.count
       end
     end
   end
