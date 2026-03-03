@@ -1,6 +1,6 @@
 <div data-badge="<%= badge.id %>">
   <div class="profile__badge">
-    <div class="profile__badge-outline" style="--value:<%= status.level.to_f / status.max_level %>;<%= "--color:var(--primary)" if status.level.to_f / status.max_level == 1 %>">
+    <div class="profile__badge-outline" style="--value:<%= status.score.to_f / (status.next_level_in + status.score) %>;<%= "--color:var(--primary)" if status.level.to_f / status.max_level == 1.0 %>">
       <div class="profile__badge-circle">
         <%= image_tag badge.file.url, alt: decidim_sanitize_translated(badge.name) %>
       </div>

@@ -5,9 +5,21 @@ en:
       badge:
         file: File
   decidim:
+    profiles:
+      show:
+        badges: Badges
     gamification:
+      all_badges_link: See all available badges.
+      description: Badges are recognitions to participant actions and progress in the platform. As you start discovering, participating and interacting in the platform, you will earn different badges.
+      level: Level %{level}
+      reached_top: You have reached the top level for this badge.
+      title: What are the badges?
       badges:
         index:
+          badge_title: "%{name} badge"
+          how: How can you earn it
+          page_description: Badges are recognitions to participant actions and progress in the platform. As you start discovering, participating and interacting in the platform, you will earn different badges. Here is the list of badges and some ways you can earn them.
+          title: Badges
           space_constraint_html: Perform the action in <strong>%{space_link}</strong> space
           component_constraint_html: Perform the action in <strong>%{component_link}</strong> component
     badges:
@@ -20,7 +32,7 @@ en:
               component_label: Component
               select_participatory_space: Select Participatory space
               participatory_space_label: Participatory space conditional
-              level_name_placeholder: The number of actions when this level of the badhe is granted
+              level_name_placeholder: The number of actions when this level of the badge is granted
               level_name_label: Level %{level}
               earning_methods_help: Add on each line the steps required to obtain this badge
               submit: Save
