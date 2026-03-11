@@ -5,8 +5,10 @@ module Decidim
     class Badge < ApplicationRecord
       include Decidim::HasAttachments
       include Decidim::HasUploadValidations
+      include Decidim::Traceable
       include Decidim::Loggable
       include Decidim::Publicable
+      # include Decidim::SoftDeletable
 
       belongs_to :organization, class_name: "Decidim::Organization", foreign_key: :decidim_organization_id
       belongs_to :participatory_space, polymorphic: true, optional: true

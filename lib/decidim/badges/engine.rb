@@ -42,9 +42,7 @@ module Decidim
             Decidim::Proposals::Admin::NotifyProposalAnswer.prepend(Decidim::Badges::Overwrites::NotifyProposalAnswer)
           end
 
-          if Decidim.module_installed?(:meetings)
-            Decidim::Meetings::WithdrawMeeting.prepend(Decidim::Badges::Overwrites::WithdrawMeeting)
-          end
+          Decidim::Meetings::WithdrawMeeting.prepend(Decidim::Badges::Overwrites::WithdrawMeeting) if Decidim.module_installed?(:meetings)
 
           Decidim::CreateFollow.prepend Decidim::Badges::Overwrites::CreateFollow
           Decidim::DeleteFollow.prepend Decidim::Badges::Overwrites::DeleteFollow

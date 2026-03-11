@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     decidim-badges (0.31.1)
-      decidim-admin (= 0.31.1)
-      decidim-core (= 0.31.1)
+      decidim-admin (~> 0.31.1)
+      decidim-core (~> 0.31.1)
       deface
 
 GEM

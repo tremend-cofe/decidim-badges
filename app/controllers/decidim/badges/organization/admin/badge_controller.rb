@@ -61,7 +61,7 @@ module Decidim
           def destroy
             enforce_permission_to_update_resource
 
-            Decidim::Badges::Admin::DestroyBadge.call(badge) do
+            Decidim::Badges::Admin::DestroyBadge.call(badge, current_user) do
               on(:ok) do
                 flash.now[:success] = t("decidim.badges.admin.badge.destroy.success")
               end
