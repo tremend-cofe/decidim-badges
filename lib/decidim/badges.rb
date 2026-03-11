@@ -10,6 +10,11 @@ module Decidim
   module Badges
     autoload :BadgeManifest, "decidim/badges/badge_manifest"
     autoload :BadgeRegistry, "decidim/badges/badge_registry"
+
+    module Overwrites
+      autoload :BadgesController, "decidim/badges/overwrites/badges_controller"
+    end
+
     def self.registry
       @badge_registry ||= Decidim::Badges::BadgeRegistry.new
     end
