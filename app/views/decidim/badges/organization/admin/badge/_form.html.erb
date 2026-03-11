@@ -12,46 +12,82 @@
         <%= form.translated :text_area, :earning_methods, aria: { label: :earning }, help_text: t(".earning_methods_help") %>
       </div>
 
-      <div class="row column">
-        <%= form.select :participatory_space,
-                        options_for_select(participatory_space_options, form.object.participatory_space),
-                        { include_blank: t('.select_participatory_space') },
-                        { aria: { label: t('.participatory_space_label') } } %>
+      <% if Decidim::Badges.find_manifest(form.object.manifest_name).has_restrictions %>
+        <div class="row column">
+          <%= form.select :participatory_space,
+                          options_for_select(participatory_space_options, form.object.participatory_space),
+                          { include_blank: t('.select_participatory_space') },
+                          { aria: { label: t('.participatory_space_label') } } %>
 
-      </div>
+        </div>
 
-      <div class="row column">
-        <%= form.select :decidim_component_id,
-                        grouped_options_for_select(
-                          grouped_components_options,
-                          form.object.decidim_component_id
-                        ),
-                        {
-                          include_blank: t('.select_component_id'),
-                        },
-                        {
-                          aria: { label: t('.component_label') },
-                          class: 'form-control'
-                        } %>
-      </div>
+        <div class="row column">
+          <%= form.select :decidim_component_id,
+                          grouped_options_for_select(
+                            grouped_components_options,
+                            form.object.decidim_component_id
+                          ),
+                          {
+                            include_blank: t('.select_component_id'),
+                          },
+                          {
+                            aria: { label: t('.component_label') },
+                            class: 'form-control'
+                          } %>
+        </div>
 
-      <div class="row column">
+        <script>
+          class OptgroupManager {
+            constructor(selectId) {
+              this.select = document.getElementById(selectId);
+              this.optgroups = this.select.querySelectorAll('optgroup');
+            }
 
-        <%= form.select :action_name,
-                        grouped_options_for_select(
-                          grouped_actions_options,
-                          form.object.action_name
-                        ),
-                        {
-                          prompt: t('.select_component_id'),
-                          include_blank: t('.select_component_id'),
-                        },
-                        {
-                          aria: { label: t('.component_label') },
-                          class: 'form-control'
-                        } %>
-      </div>
+            hideAll() {
+              this.optgroups.forEach(optgroup => {
+                optgroup.style.display = 'none';
+              });
+            }
 
+            showSpecific(labels) {
+              labels.forEach(label => {
+                const optgroup = this.select.querySelector(`optgroup[label="${label}"]`);
+                if (optgroup) {
+                  optgroup.style.display = 'block';
+                }
+              });
+            }
+
+            showOnly(label) {
+              this.hideAll();
+              this.showSpecific([label]);
+            }
+          }
+
+          const component_manager = new OptgroupManager('badge_decidim_component_id');
+
+          document.addEventListener('DOMContentLoaded', function () {
+            let space = document.getElementById("badge_participatory_space");
+            space.addEventListener("change", function () {
+              const selectedOption = this.options[this.selectedIndex];
+              const textContent = selectedOption.textContent;
+              component_manager.select.value = "";
+              component_manager.hideAll(); // Hide all optgroups
+              component_manager.showOnly(textContent);
+            });
+
+            if (space.selectedIndex > 0) {
+              const selectedOption = space.options[space.selectedIndex];
+              const textContent = selectedOption.textContent;
+              component_manager.hideAll(); // Hide all optgroups
+              component_manager.showOnly(textContent);
+            } else {
+              component_manager.hideAll();
+            }
+          });
+
+        </script>
+      <% end %>
 
       <div class="row column">
         <%= form.upload(
@@ -81,67 +117,3 @@
     <%= form.submit submit_button_text, class: "button button__sm button__secondary" %>
   </div>
 </div>
-
-<script>
-  class OptgroupManager {
-    constructor(selectId) {
-      this.select = document.getElementById(selectId);
-      this.optgroups = this.select.querySelectorAll('optgroup');
-    }
-
-    hideAll() {
-      this.optgroups.forEach(optgroup => {
-        optgroup.style.display = 'none';
-      });
-    }
-
-    showSpecific(labels) {
-      labels.forEach(label => {
-        const optgroup = this.select.querySelector(`optgroup[label="${label}"]`);
-        if (optgroup) {
-          optgroup.style.display = 'block';
-        }
-      });
-    }
-
-    showOnly(label) {
-      this.hideAll();
-      this.showSpecific([label]);
-    }
-  }
-
-  const component_manager = new OptgroupManager('badge_decidim_component_id');
-  const action_manager = new OptgroupManager('badge_action_name');
-
-  document.addEventListener('DOMContentLoaded', function () {
-    let space = document.getElementById("badge_participatory_space");
-    space.addEventListener("change", function () {
-      const selectedOption = this.options[this.selectedIndex];
-      const textContent = selectedOption.textContent;
-      component_manager.select.value = "";
-      component_manager.hideAll(); // Hide all optgroups
-      component_manager.showOnly(textContent);
-    });
-
-    if (space.selectedIndex > 0) {
-      const selectedOption = space.options[space.selectedIndex];
-      const textContent = selectedOption.textContent;
-      component_manager.hideAll(); // Hide all optgroups
-      component_manager.showOnly(textContent);
-    }
-
-    let component = document.getElementById("badge_decidim_component_id");
-    component.addEventListener("change", function () {
-      action_manager.select.value = "";
-      action_manager.showOnly(component.value);
-    });
-
-    if (component.selectedIndex > 0) {
-      action_manager.hideAll(); // Hide all optgroups
-      action_manager.showOnly(component.value);
-    }
-
-
-  });
-
-</script>

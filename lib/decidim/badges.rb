@@ -15,8 +15,36 @@ module Decidim
       autoload :BadgesController, "decidim/badges/overwrites/badges_controller"
     end
 
+    # Semi-private: The BadgeRegistry to register manifests of badges to.
     def self.registry
       @badge_registry ||= Decidim::Badges::BadgeRegistry.new
+    end
+
+    # Public: Returns all available badges.
+    #
+    # Returns an Array<BadgeManifest>
+    def self.manifests
+      registry.all
+    end
+
+    # Public: Finds a BadgeManifest given a name.
+    #
+    # Returns a BadgeManifest if found, nil otherwise.
+    def self.find_manifest(name)
+      registry.find(name)
+    end
+
+    # Public: Registers a new BadgeManifest.
+    #
+    # Example:
+    #
+    #     Decidim::Badges.register_badge(:foo) do |badge|
+    #     end
+    #
+    # Returns nothing if registered successfully, raises an exception
+    # otherwise.
+    def self.register_manifest(name, &)
+      registry.register(name, &)
     end
   end
 end

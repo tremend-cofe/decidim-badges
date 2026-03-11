@@ -2,12 +2,17 @@
 
 module Decidim
   module Badges
-    module BadgeManifest
+    class BadgeManifest
       include Decidim::AttributeObject::Model
       include ActiveModel::Validations
 
       # The name of the badge.
       attribute :name, String
+
+      # whether the badge should add restriction fields
+      attribute :has_restrictions, Boolean, default: true
+
+      attribute :action_description, String
 
       # # An array of scores needed to reach a new level. For example, the array
       # # [1, 5, 10] represents 1 point to get to Level 1, 5 points to get to level 2,
@@ -53,18 +58,6 @@ module Decidim
       #   levels.length
       # end
       #
-      # def translated_name
-      #   I18n.t "name", scope: translation_scope
-      # end
-      #
-      # def description(organization_name = nil)
-      #   I18n.t("description", organization_name:, scope: translation_scope)
-      # end
-      #
-      # def conditions
-      #   I18n.t("conditions", scope: translation_scope)
-      # end
-      #
       # def score_descriptions(score)
       #   {
       #     unearned_own: I18n.t("unearned_own", scope: translation_scope),
@@ -72,23 +65,6 @@ module Decidim
       #     unearned_another: I18n.t("unearned_another", scope: translation_scope),
       #     description_another: I18n.t("description_another", score:, scope: translation_scope)
       #   }
-      # end
-      #
-      # # Public: Returns an image for this badge.
-      # #
-      # # Returns a String with the image.
-      # def image
-      #   ActionController::Base.helpers.asset_pack_path("media/images/decidim_gamification_badges_#{name}.svg")
-      # end
-      #
-      # def valid_for?(model)
-      #   valid_for.include?(model.class.name.demodulize.underscore.to_sym)
-      # end
-      #
-      # private
-      #
-      # def translation_scope
-      #   "decidim.gamification.badges.#{name}"
       # end
     end
   end

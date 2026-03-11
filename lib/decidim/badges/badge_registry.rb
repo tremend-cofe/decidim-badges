@@ -5,14 +5,14 @@ module Decidim
     class BadgeRegistry
       # Public: Initializes the badge registry.
       def initialize
-        @badges = {}
+        @manifests = {}
       end
 
       # Public: Returns all the registered badges.
       #
       # Returns Array<Badge>.
       def all
-        @badges.values
+        @manifests.values
       end
 
       # Public: Finds a badge given its name.
@@ -21,7 +21,7 @@ module Decidim
       #
       # Returns a Badge if found or nil otherwise.
       def find(name)
-        @badges[name.to_s]
+        @manifests[name.to_s]
       end
 
       # Public: Registers a new badge.
@@ -37,13 +37,13 @@ module Decidim
       def register(name, &)
         name = name.to_s
 
-        badge = BadgeManifest.new(name:).tap do |object|
+        badge = Decidim::Badges::BadgeManifest.new(name:).tap do |object|
           object.instance_eval(&)
         end
 
         badge.validate!
 
-        @badges[name] = badge
+        @manifests[name] = badge
       end
 
       # Public: Unregisters a previously registered badge.
@@ -52,7 +52,7 @@ module Decidim
       #
       # Returns the deleted Badge if found, nil otherwise.
       def unregister(name)
-        @badges.delete(name.to_s)
+        @manifests.delete(name.to_s)
       end
     end
   end
