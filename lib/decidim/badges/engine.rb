@@ -35,6 +35,8 @@ module Decidim
           Decidim::Comments::DeleteComment.prepend(Decidim::Badges::Overwrites::DeleteComment) if Decidim.module_installed?(:comments)
 
           if Decidim.module_installed?(:proposals)
+            Decidim::Proposals::VoteProposal.prepend(Decidim::Badges::Overwrites::VoteProposal)
+            Decidim::Proposals::UnvoteProposal.prepend(Decidim::Badges::Overwrites::UnvoteProposal)
             Decidim::Proposals::PublishProposal.prepend(Decidim::Badges::Overwrites::PublishProposal)
             Decidim::Proposals::WithdrawProposal.prepend(Decidim::Badges::Overwrites::WithdrawProposal)
             Decidim::Proposals::Admin::NotifyProposalAnswer.prepend(Decidim::Badges::Overwrites::NotifyProposalAnswer)
@@ -159,6 +161,33 @@ module Decidim
             Decidim::Badges.compute_score(:proposal_accepted, user: data[:creator])
             Decidim::Badges.compute_score(:proposal_accepted, user: data[:creator], participatory_space: data[:resource].participatory_space)
             Decidim::Badges.compute_score(:proposal_accepted, user: data[:creator], participatory_space: data[:resource].participatory_space, component: data[:resource].component)
+          end
+        end
+      end
+
+      initializer "decidim_badges.register_badges.proposal_voted" do
+        if Decidim.module_installed?(:proposals)
+          Decidim::Badges.register_manifest(:proposal_voted) do |badge|
+            badge.reset = lambda { |author, participatory_space, component|
+              conditions = { votes: { author: } }
+              conditions.merge!(component: component) if component.present?
+              conditions.merge!(component: { participatory_space: }) if participatory_space.present?
+
+              Decidim::Proposals::Proposal
+                .joins(:votes, :component)
+                .where(**conditions)
+                .published
+                .not_withdrawn
+                .not_hidden
+                .distinct
+                .count
+            }
+          end
+
+          ActiveSupport::Notifications.subscribe("decidim.proposals.proposal_voted") do |_event_name, data|
+            Decidim::Badges.compute_score(:proposal_voted, user: data[:creator])
+            Decidim::Badges.compute_score(:proposal_voted, user: data[:creator], participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:proposal_voted, user: data[:creator], participatory_space: data[:resource].participatory_space, component: data[:resource].component)
           end
         end
       end
