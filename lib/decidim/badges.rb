@@ -23,6 +23,9 @@ module Decidim
 
       autoload :CreateFollow, "decidim/badges/overwrites/create_follow"
       autoload :DeleteFollow, "decidim/badges/overwrites/delete_follow"
+
+      autoload :PublishProposal, "decidim/badges/overwrites/publish_proposal"
+      autoload :WithdrawProposal, "decidim/badges/overwrites/withdraw_proposal"
     end
 
     # Semi-private: The BadgeRegistry to register manifests of badges to.

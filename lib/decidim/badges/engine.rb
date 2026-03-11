@@ -34,6 +34,11 @@ module Decidim
 
           Decidim::Comments::DeleteComment.prepend(Decidim::Badges::Overwrites::DeleteComment) if Decidim.module_installed?(:comments)
 
+          if Decidim.module_installed?(:proposals)
+            Decidim::Proposals::PublishProposal.prepend(Decidim::Badges::Overwrites::PublishProposal)
+            Decidim::Proposals::WithdrawProposal.prepend(Decidim::Badges::Overwrites::WithdrawProposal)
+          end
+
           Decidim::CreateFollow.prepend Decidim::Badges::Overwrites::CreateFollow
           Decidim::DeleteFollow.prepend Decidim::Badges::Overwrites::DeleteFollow
         end
@@ -43,9 +48,10 @@ module Decidim
         if Decidim.module_installed?(:comments)
           Decidim::Badges.register_manifest(:comment_created) do |badge|
             badge.reset = lambda { |author, participatory_space, component|
-              comments = Decidim::Comments::Comment.not_deleted.not_hidden.where(author:)
+              conditions = { author: }
+              conditions.merge!(participatory_space:) if participatory_space.present?
 
-              comments.where(participatory_space:) if participatory_space.present?
+              comments = Decidim::Comments::Comment.not_deleted.not_hidden.where(**conditions)
 
               if component.present?
                 root_commentables = begin
@@ -92,6 +98,34 @@ module Decidim
 
         ActiveSupport::Notifications.subscribe("decidim.delete_follow:after") do |_event_name, data|
           Decidim::Badges.compute_score(:followers, user: data[:resource]) if data[:resource].is_a?(Decidim::User)
+        end
+      end
+
+      initializer "decidim_badges.register_badges.proposal_created", after: "decidim_badges.register_badges" do
+        if Decidim.module_installed?(:proposals)
+          Decidim::Badges.register_manifest(:proposal_created) do |badge|
+            badge.reset = lambda { |author, participatory_space, component|
+              conditions = { decidim_coauthorships: { author: } }
+              conditions.merge!(component: component) if component.present?
+              conditions.merge!(component: { participatory_space: }) if participatory_space.present?
+
+              proposal = Decidim::Proposals::Proposal.published.not_withdrawn.not_hidden.joins(:coauthorships, :component).where(**conditions)
+
+              proposal.distinct.count
+            }
+          end
+
+          ActiveSupport::Notifications.subscribe("decidim.proposals.publish_proposal") do |_event_name, data|
+            Decidim::Badges.compute_score(:proposal_created, user: data[:creator])
+            Decidim::Badges.compute_score(:proposal_created, user: data[:creator], participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:proposal_created, user: data[:creator], participatory_space: data[:resource].participatory_space, component: data[:resource].component)
+          end
+
+          ActiveSupport::Notifications.subscribe("decidim.proposals.withdraw_proposal") do |_event_name, data|
+            Decidim::Badges.compute_score(:proposal_created, user: data[:creator])
+            Decidim::Badges.compute_score(:proposal_created, user: data[:creator], participatory_space: data[:resource].participatory_space)
+            Decidim::Badges.compute_score(:proposal_created, user: data[:creator], participatory_space: data[:resource].participatory_space, component: data[:resource].component)
+          end
         end
       end
     end
