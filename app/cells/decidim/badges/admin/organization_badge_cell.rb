@@ -4,7 +4,6 @@ module Decidim
   module Badges
     module Admin
       class OrganizationBadgeCell < ::Decidim::Admin::ContentBlockCell
-
         delegate :content_block_destroy_confirmation_text, to: :view_context
 
         def edit_content_block_path = decidim_admin_badges.edit_badge_list_badge_path(model)

@@ -10,9 +10,12 @@ module Decidim
   module Badges
     autoload :BadgeManifest, "decidim/badges/badge_manifest"
     autoload :BadgeRegistry, "decidim/badges/badge_registry"
+    autoload :BadgeStatus, "decidim/badges/badge_status"
 
     module Overwrites
       autoload :BadgesController, "decidim/badges/overwrites/badges_controller"
+      autoload :BadgeCell, "decidim/badges/overwrites/badge_cell"
+      autoload :BadgesCell, "decidim/badges/overwrites/badges_cell"
     end
 
     # Semi-private: The BadgeRegistry to register manifests of badges to.

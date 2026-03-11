@@ -26,7 +26,6 @@ module Decidim
 
         initializer "decidim_admin_badges.add_menu" do
           Decidim.menu :admin_settings_menu do |menu|
-
             menu.add_item :badges,
                           I18n.t("menu.badges", scope: "decidim.badges.admin"),
                           decidim_admin_badges.root_path,

@@ -4,7 +4,6 @@ module Decidim
   module Badges
     module Organization
       module Admin
-
         class BadgeListController < ApplicationController
           layout "decidim/admin/settings"
 
@@ -66,7 +65,6 @@ module Decidim
           end
 
           def resource_content_block_cell = "decidim/badges/admin/organization_badge"
-
         end
       end
     end
