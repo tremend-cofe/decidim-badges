@@ -56,7 +56,7 @@ module Decidim
         # rubocop:enable Rails/SkipsModelValidations
 
         def collection
-          @collection ||= Decidim::Badges::Badge.where(gamifiable: current_organization)
+          @collection ||= Decidim::Badges::Badge.where(organization: current_organization)
         end
       end
     end
