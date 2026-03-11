@@ -1,6 +1,9 @@
 ---
 en:
-
+  activemodel:
+    attributes:
+      badge:
+        file: File
   decidim:
     gamification:
       badges:
@@ -22,7 +25,7 @@ en:
               earning_methods_help: Add on each line the steps required to obtain this badge
               submit: Save
             add:
-              add: Add
+              add: Add badge
             edit:
               edit: 'Edit "%{badge}" badge'
       admin_log:

@@ -2,4 +2,7 @@
 
 base_path = File.expand_path("..", __dir__)
 
-Decidim::Webpacker.register_path("#{base_path}/app/packs")
+Decidim::Shakapacker.register_path("#{base_path}/app/packs")
+Decidim::Shakapacker.register_entrypoints(
+  decidim_badges_admin: "#{base_path}/app/packs/entrypoints/decidim_badges_admin.js"
+)
