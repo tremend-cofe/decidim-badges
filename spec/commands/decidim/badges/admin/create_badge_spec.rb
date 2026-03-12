@@ -54,6 +54,10 @@ module Decidim
           end
 
           it "updates the file of the badge" do
+            expect { subject.call }.to change(Badges::Badge, :count).by(1)
+
+            badge = Badges::Badge.last
+
             expect(badge.file).to be_attached
             expect(badge.file.filename).to eq("city.jpeg")
           end
