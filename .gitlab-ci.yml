@@ -14,7 +14,7 @@ variables:
   EDGE: "false"
 
 services:
-  - name: registry.fpfis.eu/comm/citizens/comm-citi-reference/postgres:14.13-alpine
+  - name: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference/postgres:14.13-alpine
     alias: postgres
 
 stages:
@@ -24,7 +24,7 @@ rubocop:
   stage: build
   tags:
     - citi-runner
-  image: registry.fpfis.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
   artifacts:
     name: rubocop
     when: always
@@ -37,7 +37,7 @@ rubocop:
 
 rubycritic:
   stage: build
-  image: registry.fpfis.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
   allow_failure: true
   tags:
     - citi-runner
@@ -46,7 +46,7 @@ rubycritic:
     - rubycritic --no-browser app config lib
 
 .test:
-  image: registry.fpfis.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
   tags:
     - citi-runner
   stage: build

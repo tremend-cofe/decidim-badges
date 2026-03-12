@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors = ["Alexandru Emil Lupu"]
   s.email = ["contact@alecslupu.ro"]
   s.license = "AGPL-3.0-or-later"
-  s.homepage = "https://decidim.org"
+  s.homepage = "https://gitlab.dhs.tech.ec.europa.eu/comm/libraries/decidim/decidim-module-badges"
   s.metadata = {}
   s.required_ruby_version = "~> 3.3"
 
