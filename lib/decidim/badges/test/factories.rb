@@ -35,5 +35,6 @@ FactoryBot.define do
     badge { create(:badge) }
     user { create(:user, :confirmed, organization: badge.organization) }
     value { 5 }
+    level { 1 }
   end
 end
