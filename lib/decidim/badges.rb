@@ -77,8 +77,9 @@ module Decidim
 
       if badge.manifest.reset.present?
         value = badge.manifest.reset.call(user, participatory_space, component)
+        level = badge.level_of(value)
 
-        Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:).update!(value:)
+        Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:).update!(value:, level:)
       end
     end
 
@@ -95,7 +96,9 @@ module Decidim
       badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
 
       score = Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:)
-      score.update(value: (score.value + 1))
+      new_value = score.value + 1
+      new_level = badge.level_of(new_value)
+      score.update(value: new_value, level: new_level)
     end
 
     def self.decrement_score(manifest_name, user:, participatory_space: nil, component: nil)
@@ -108,7 +111,9 @@ module Decidim
       return if badge.blank?
 
       score = Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:)
-      score.update(value: (score.value - 1))
+      new_value = score.value - 1
+      new_level = badge.level_of(new_value)
+      score.update(value: new_value, level: new_level)
     end
   end
 end

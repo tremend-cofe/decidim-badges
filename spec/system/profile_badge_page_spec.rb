@@ -56,7 +56,7 @@ describe "Visitors checks the profile page" do
 
       context "when user has earned the badge" do
         context "when user has not earned the badge" do
-          let!(:score) { create(:badge_score, badge:, user:, value: 0) }
+          let!(:score) { create(:badge_score, badge:, user:, value: 0, level: 0) }
 
           it "displays the badge information" do
             visit current_path
@@ -65,7 +65,7 @@ describe "Visitors checks the profile page" do
         end
 
         context "when user has earned the level 1 badge" do
-          let!(:score) { create(:badge_score, badge:, user:, value: 2) }
+          let!(:score) { create(:badge_score, badge:, user:, value: 2, level: 1) }
 
           it "displays the badge information" do
             visit current_path
@@ -74,7 +74,7 @@ describe "Visitors checks the profile page" do
         end
 
         context "when user has earned the level 2 badge" do
-          let!(:score) { create(:badge_score, badge:, user:, value: 5) }
+          let!(:score) { create(:badge_score, badge:, user:, value: 5, level: 2) }
 
           it "displays the badge information" do
             visit current_path
@@ -83,7 +83,7 @@ describe "Visitors checks the profile page" do
         end
 
         context "when user has earned the level 3 badge" do
-          let!(:score) { create(:badge_score, badge:, user:, value: 7) }
+          let!(:score) { create(:badge_score, badge:, user:, value: 7, level: 3) }
 
           it "displays the badge information" do
             visit current_path
@@ -92,7 +92,7 @@ describe "Visitors checks the profile page" do
         end
 
         context "when user has earned the level 4 badge" do
-          let!(:score) { create(:badge_score, badge:, user:, value: 10) }
+          let!(:score) { create(:badge_score, badge:, user:, value: 10, level: 4) }
 
           it "displays the badge information" do
             visit current_path
@@ -101,7 +101,7 @@ describe "Visitors checks the profile page" do
         end
 
         context "when user has earned the level 5 badge" do
-          let!(:score) { create(:badge_score, badge:, user:, value: 41) }
+          let!(:score) { create(:badge_score, badge:, user:, value: 41, level: 5) }
 
           it "displays the badge information" do
             visit current_path
@@ -110,7 +110,7 @@ describe "Visitors checks the profile page" do
         end
 
         context "when user is hyperactive" do
-          let!(:score) { create(:badge_score, badge:, user:, value: 41_000) }
+          let!(:score) { create(:badge_score, badge:, user:, value: 41_000, level: 5) }
 
           it "displays the badge information" do
             visit current_path
