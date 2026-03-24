@@ -26,8 +26,13 @@ FactoryBot.define do
         badge.component = create(:dummy_component, participatory_space: badge.participatory_space, skip_injection: evaluator.skip_injection)
       end
     end
+
     trait :unpublished do
       published_at { nil }
+    end
+
+    trait :published do
+      published_at { 2.days.ago }
     end
   end
 
