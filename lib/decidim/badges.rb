@@ -66,6 +66,11 @@ module Decidim
       registry.register(name, &)
     end
 
+    def self.validate!(user:, participatory_space: nil, component: nil)
+      raise ArgumentError, "The Organization mismatch in badge" if participatory_space.present? && user.organization != participatory_space.organization
+      raise ArgumentError, "The Organization mismatch in badge" if component.present? && user.organization != component.organization
+    end
+
     def self.compute_score(manifest_name, user:, participatory_space: nil, component: nil)
       return unless user.is_a?(Decidim::UserBaseEntity)
 
@@ -75,45 +80,17 @@ module Decidim
 
       return if badge.blank?
 
-      if badge.manifest.reset.present?
-        value = badge.manifest.reset.call(user, participatory_space, component)
-        level = badge.level_of(value)
+      return if badge.manifest.reset.blank?
 
-        Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:).update!(value:, level:)
-      end
-    end
+      score = Decidim::Badges::BadgeScore.where(user:, badge:).first_or_initialize
 
-    def self.validate!(user:, participatory_space: nil, component: nil)
-      raise ArgumentError, "The Organization mismatch in badge" if participatory_space.present? && user.organization != participatory_space.organization
-      raise ArgumentError, "The Organization mismatch in badge" if component.present? && user.organization != component.organization
-    end
-
-    def self.increment_score(manifest_name, user:, participatory_space: nil, component: nil)
-      return unless user.is_a?(Decidim::UserBaseEntity)
-
-      validate!(user:, participatory_space:, component:)
-
-      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
-
-      score = Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:)
-      new_value = score.value + 1
+      new_value = badge.manifest.reset.call(user, participatory_space, component)
       new_level = badge.level_of(new_value)
-      score.update(value: new_value, level: new_level)
-    end
 
-    def self.decrement_score(manifest_name, user:, participatory_space: nil, component: nil)
-      return unless user.is_a?(Decidim::UserBaseEntity)
+      score.value = new_value
+      score.level = new_level
 
-      validate!(user:, participatory_space:, component:)
-
-      badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
-
-      return if badge.blank?
-
-      score = Decidim::Badges::BadgeScore.find_or_create_by(user:, badge:)
-      new_value = score.value - 1
-      new_level = badge.level_of(new_value)
-      score.update(value: new_value, level: new_level)
+      score.save
     end
   end
 end
