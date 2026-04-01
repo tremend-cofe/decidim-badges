@@ -1,0 +1,81 @@
+variables:
+  POSTGRES_DB: decidim_test
+  POSTGRES_USER: test_user
+  POSTGRES_PASSWORD: test_user_password
+  POSTGRES_HOST_AUTH_METHOD: trust
+  DATABASE_URL: "postgres://test_user@postgres:5432/decidim_test"
+  DATABASE_USERNAME: test_user
+  DATABASE_PASSWORD: test_user_password
+  DATABASE_HOST: postgres
+  SIMPLECOV: "true"
+  CI: "true"
+  RAILS_ENV: test
+  DISABLE_SPRING: "true"
+  EDGE: "false"
+
+services:
+  - name: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference/postgres:14.13-alpine
+    alias: postgres
+
+stages:
+  - build
+
+rubocop:
+  stage: build
+  tags:
+    - citi-runner
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  artifacts:
+    name: rubocop
+    when: always
+    paths:
+      - rubocop/
+  script:
+    - gem install bundler -v $(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -1 | cut -d " " -f 4)
+    - bundle install --jobs 4 --retry 3
+    - bundle exec rubocop --format html --out rubocop/index.html  config/ lib/ app/ spec/
+
+rubycritic:
+  stage: build
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  allow_failure: true
+  tags:
+    - citi-runner
+  script:
+    - gem install rubycritic
+    - rubycritic --no-browser app config lib
+
+.test:
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  tags:
+    - citi-runner
+  stage: build
+  coverage: '/\(\d+.\d+\%\) covered/'
+  artifacts:
+    name: "artefacts-jobs-$CI_COMMIT_REF_NAME"
+    when: always
+    paths:
+      - spec/decidim_dummy_app/tmp/screenshots/
+      - coverage/
+      - rspec.xml
+    reports:
+      junit: rspec.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/coverage.xml
+  before_script:
+    - gem install bundler -v $(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -1 | cut -d " " -f 4)
+    - bundle update decidim decidim-dev
+    - bundle exec rake test_app
+    - mkdir -p ./spec/decidim_dummy_app/tmp/screenshots
+    - cd ./spec/decidim_dummy_app/
+    - RAILS_ENV=test bundle exec rails assets:precompile
+    - cd ../../
+  script:
+    - bundle exec rspec spec/
+
+test stable:
+  extends: .test
+  variables:
+    DECIDIM_VERSION: "~> 0.31.0"
+
