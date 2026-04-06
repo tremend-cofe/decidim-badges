@@ -16,7 +16,7 @@ module Decidim
       #
       # Returns an Integer with the level.
       def level
-        @badge.level_of(score)
+        badge_score&.level || 0
       end
 
       # Public: Returns the score remaining to get to the next level.
@@ -36,7 +36,11 @@ module Decidim
       #
       # Returns an Integer with the score.
       def score
-        @score ||= Decidim::Badges::BadgeScore.where(user:, badge:).first_or_initialize(value: 0).value
+        badge_score&.value || 0
+      end
+
+      def badge_score
+        @badge_score ||= Decidim::Badges::BadgeScore.where(user:, badge:).first_or_initialize
       end
 
       def level_up

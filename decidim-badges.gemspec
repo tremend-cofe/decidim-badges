@@ -24,8 +24,7 @@ Gem::Specification.new do |s|
     end
   end
 
-  s.add_dependency "decidim-core", "~> 0.31.3"
   s.add_dependency "decidim-admin", "~> 0.31.3"
+  s.add_dependency "decidim-core", "~> 0.31.3"
   s.add_dependency "deface"
-  s.add_development_dependency "decidim-dev", "~> 0.31.3"
 end
