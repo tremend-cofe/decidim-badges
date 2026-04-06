@@ -38,4 +38,7 @@ describe "User creates meeting", type: :system do
   end
 
   include_examples "badge granted on published meeting"
+  include_examples "sending level up notifications" do
+    let(:additional) { create_list(:meeting, count, :published, author:, component:) }
+  end
 end
