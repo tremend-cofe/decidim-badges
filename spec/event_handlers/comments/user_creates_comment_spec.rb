@@ -24,4 +24,12 @@ describe "User creates comment", type: :system do
   let(:body) { "Very nice idea that is not going to be blocked by engine" }
 
   include_examples "badge granted on new comment"
+  include_examples "sending level up notifications" do
+    let(:additional) do
+      additional_res = []
+      count.times { additional_res.push create(:comment, author:, commentable: create(:dummy_resource, component:)) }
+
+      additional_res
+    end
+  end
 end

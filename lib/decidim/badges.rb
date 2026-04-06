@@ -78,9 +78,7 @@ module Decidim
 
       badge = Decidim::Badges::Badge.published.where(organization: user.organization, manifest_name:, participatory_space:, component:).first
 
-      return if badge.blank?
-
-      return if badge.manifest.reset.blank?
+      return if badge.blank? || badge.manifest.reset.blank?
 
       score = Decidim::Badges::BadgeScore.where(user:, badge:).first_or_initialize
 
@@ -90,7 +88,27 @@ module Decidim
       score.value = new_value
       score.level = new_level
 
+      if score.new_record?
+        publish_badge_event(event: "decidim.events.badges.badge_earned", event_class: BadgeEarnedEvent, score:)
+      elsif score.level_changed?
+        publish_badge_event(event: "decidim.events.badges.level_up", event_class: LevelUpEvent, score:)
+      end
+
       score.save
+    end
+
+    def self.publish_badge_event(event:, event_class:, score:)
+      Decidim::EventsManager.publish(
+        event:,
+        event_class:,
+        resource: score.user,
+        affected_users: [score.user],
+        extra: {
+          badge: score.badge.id,
+          previous_level: score.level_was,
+          current_level: score.level
+        }
+      )
     end
   end
 end
