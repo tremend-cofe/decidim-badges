@@ -27,17 +27,18 @@ module Decidim
 
           def create
             enforce_permission_to_update_resource
+            @badge = Decidim::Badges::Badge.new(organization: current_organization, manifest_name: params[:manifest_name])
             @form = form(Decidim::Badges::Admin::BadgeForm).from_params(params)
-
             Decidim::Badges::Admin::CreateBadge.call(@form) do
               on(:ok) do
                 flash.now[:success] = t("decidim.badges.admin.badge.create.success")
-              end
-              on(:invalid) do
-                flash.now[:error] = t("decidim.badges.admin.badge.create.error")
+                redirect_to edit_resource_landing_page_path
               end
 
-              redirect_to edit_resource_landing_page_path
+              on(:invalid) do
+                flash.now[:error] = t("decidim.badges.admin.badge.create.error")
+                render "decidim/badges/organization/admin/badge/new"
+              end
             end
           end
 
