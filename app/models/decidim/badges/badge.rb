@@ -34,15 +34,15 @@ module Decidim
       end
 
       def level_of(score)
-        levels.each do |threshold, index|
+        levels.compact_blank.each do |threshold, index|
           return threshold.to_i if index.to_i > score.to_i
         end
 
-        levels.length
+        levels.compact_blank.length
       end
 
       def max_level
-        levels.values.compact_blank.count
+        levels.compact_blank.count
       end
     end
   end

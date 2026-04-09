@@ -50,7 +50,7 @@ module Decidim
       end
 
       def last_level?
-        level >= @badge.levels.count
+        level >= @badge.levels.compact_blank.count
       end
     end
   end
