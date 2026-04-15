@@ -16,7 +16,7 @@
         <ul class="dropdown dropdown__bottom" id="add-content-block-dropdown" aria-hidden="true">
           <% available_manifests.each do |manifest| %>
             <li class="dropdown__item">
-              <%= link_to manifest.name, resource_create_url(manifest.name), class: "dropdown__button" %>
+              <%= link_to t(manifest.name, scope: "decidim.badges.organization.admin.badge_list.edit"), resource_create_url(manifest.name), class: "dropdown__button" %>
             </li>
           <% end %>
         </ul>

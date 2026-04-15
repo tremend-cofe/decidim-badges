@@ -1,0 +1,22 @@
+---
+fr:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Félicitations! Vous avez gagné le badge <a href="%{resource_path}">%{badge_name}
+            </a> (niveau %{current_level}).
+          email_outro: Cette notification vous a été envoyée parce que vous avez été
+            actif/active sur notre site web.
+          email_subject: 'Vous avez gagné un nouveau badge: %{badge_name}!'
+          notification_title: Félicitations! Vous avez gagné le <a href="%{resource_path}">badge
+            %{badge_name}</a> (niveau %{current_level}).
+        level_up:
+          email_intro: Félicitations! Vous avez atteint le niveau %{current_level}
+            sur le <a href="%{resource_url}">badge %{badge_name} </a>!
+          email_outro: Cette notification vous a été envoyée parce que vous avez été
+            actif/active sur notre site web.
+          email_subject: Vous avez atteint le niveau %{current_level} sur le badge
+            %{badge_name}!
+          notification_title: Félicitations! Vous avez atteint le niveau %{current_level}
+            sur le <a href="%{resource_path}">badge %{badge_name}</a>!

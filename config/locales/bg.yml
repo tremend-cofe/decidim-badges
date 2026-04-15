@@ -1,0 +1,21 @@
+---
+bg:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Поздравления! Получихте значка <a href="%{resource_path}">%{badge_name}
+            </a> (ниво %{current_level}).
+          email_outro: Получавате това известие, защото сте извършили дейност на уебсайта
+            ни.
+          email_subject: 'Спечелихте нова значка: %{badge_name}!'
+          notification_title: Поздравления! Спечелихте <a href="%{resource_path}">значката
+            %{badge_name}</a> (ниво %{current_level}).
+        level_up:
+          email_intro: Поздравления! Достигнахте ниво %{current_level} за <a href="%{resource_url}">значката
+            %{badge_name}</a>!
+          email_outro: Получавате това известие, защото сте извършили дейност на уебсайта
+            ни.
+          email_subject: Достигнахте ниво %{current_level} за значката %{badge_name}!
+          notification_title: Поздравления! Достигнахте ниво %{current_level} за <a
+            href="%{resource_path}">значката %{badge_name}</a>!

@@ -1,0 +1,22 @@
+---
+nl:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Gefeliciteerd! U hebt een <a href="%{resource_path}">%{badge_name}
+            badge</a> (niveau %{current_level}) verdiend.
+          email_outro: U hebt dit bericht ontvangen omdat u actief bent geweest op
+            onze website.
+          email_subject: 'U hebt een nieuwe badge gekregen: %{badge_name}!'
+          notification_title: Gefeliciteerd! U hebt de badge <a href="%{resource_path}">%{badge_name}
+            </a> (niveau %{current_level}) gekregen.
+        level_up:
+          email_intro: Gefeliciteerd! U hebt het niveau %{current_level} op de badge
+            <a href="%{resource_url}">%{badge_name} </a> bereikt!
+          email_outro: U hebt dit bericht ontvangen omdat u actief bent geweest op
+            onze website.
+          email_subject: U hebt het niveau %{current_level} op de badge %{badge_name}
+            bereikt!
+          notification_title: Gefeliciteerd! U hebt het niveau %{current_level} op
+            de badge <a href="%{resource_path}">%{badge_name} </a> bereikt!

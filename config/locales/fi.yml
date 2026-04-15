@@ -1,0 +1,19 @@
+---
+fi:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Onnittelut! Olet saavuttanut merkin <a href="%{resource_path}">%{badge_name}
+            tason</a> (taso %{current_level}).
+          email_outro: Sait tämän ilmoituksen, koska teit toimintoja verkkosivustollamme.
+          email_subject: 'Olet ansainnut uuden merkin: %{badge_name}!'
+          notification_title: Onnittelut! Olet ansainnut <a href="%{resource_path}">%{badge_name}
+            merkin</a> (taso %{current_level}).
+        level_up:
+          email_intro: Onnittelut! Olet saavuttanut <a href="%{resource_url}">%{badge_name}
+            merkin</a> tason %{current_level}!
+          email_outro: Sait tämän ilmoituksen, koska teit toimintoja verkkosivustollamme.
+          email_subject: Olet saavuttanut merkin %{badge_name} tason %{current_level}!
+          notification_title: Onnittelut! Olet saavuttanut <a href="%{resource_path}">%{badge_name}
+            merkin</a> tason %{current_level}!

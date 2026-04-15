@@ -1,0 +1,21 @@
+---
+lt:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Sveikiname! Jūs pelnėte <a href="%{resource_path}">%{badge_name}
+            ženklelį</a> (lygis %{current_level}).
+          email_outro: Šį pranešimą gavote dėl to, kad mūsų interneto svetainėje pradėjote
+            veiklą.
+          email_subject: Jūs pelnėte naują ženklelį – %{badge_name}!
+          notification_title: Sveikiname! Jūs pelnėte <a href="%{resource_path}">%{badge_name}
+            badge</a> (lygis %{current_level}).
+        level_up:
+          email_intro: Sveikiname! Jūs pelnėte %{current_level} lygio <a href="%{resource_url}">%{badge_name}
+            badge</a>!
+          email_outro: Šį pranešimą gavote dėl to, kad mūsų interneto svetainėje pradėjote
+            veiklą.
+          email_subject: Jūs pelnėte %{current_level} lygio ženklelį %{badge_name}!
+          notification_title: Sveikiname! Jūs pelnėte %{current_level} lygio ženklelį
+            <a href="%{resource_path}">%{badge_name}</a>!

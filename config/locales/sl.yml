@@ -1,0 +1,19 @@
+---
+sl:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Čestitamo! Prislužili ste si značko <a href="%{resource_path}">%{badge_name}
+            </a> (na ravni %{current_level}).
+          email_outro: To obvestilo ste prejeli, ker ste bili dejavni na našem spletišču.
+          email_subject: 'Prislužili ste si novo značko: %{badge_name}!'
+          notification_title: Čestitamo! Prislužili ste si <a href="%{resource_path}">%{badge_name}
+            značko</a> (level %{current_level}).
+        level_up:
+          email_intro: Čestitamo! Dosegli ste raven %{current_level} na znački <a
+            href="%{resource_url}">%{badge_name}</a>!
+          email_outro: To obvestilo ste prejeli, ker ste bili dejavni na našem spletišču.
+          email_subject: Dosegli ste raven %{current_level} na znački %{badge_name}!
+          notification_title: Čestitamo! Dosegli ste raven %{current_level} na znački
+            <a href="%{resource_path}">%{badge_name}</a>!

@@ -1,0 +1,19 @@
+---
+lv:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Apsveicam! Jūs nopelnījāt <a href="%{resource_url}">%{badge_name}
+            žetonu</a> (%{current_level}. līmenis).
+          email_outro: Jūs saņēmāt šo paziņojumu, jo veicāt darbību mūsu tīmekļa vietnē.
+          email_subject: Jūs nopelnījāt jaunu žetonu. %{badge_name}!
+          notification_title: Apsveicam! Jūs nopelnījāt <a href="%{resource_path}">%{badge_name}
+            žetonu</a> (level %{current_level}).
+        level_up:
+          email_intro: Apsveicam! Jūs sasniedzāt %{current_level} līmeni <a href="%{resource_url}">%{badge_name}
+            žetonam</a>!
+          email_outro: Jūs saņēmāt šo paziņojumu, jo veicāt darbību mūsu tīmekļa vietnē.
+          email_subject: Jūs sasniedzāt %{current_level} līmeni %{badge_name} žetonam!
+          notification_title: Apsveicam! Jūs sasniedzāt %{current_level} līmeni <a
+            href="%{resource_path}">%{badge_name} žetonam</a>!

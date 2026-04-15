@@ -1,0 +1,21 @@
+---
+pl:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Gratulacje! Odznaka <a href="%{resource_path}">%{badge_name}
+            jest Twoja (poziom %{current_level}).
+          email_outro: Otrzymujesz to powiadomienie, ponieważ jesteś aktywnym użytkownikiem
+            naszej strony.
+          email_subject: 'Nowa odznaka jest Twoja: %{badge_name}!'
+          notification_title: Gratulacje! <a href="%{resource_path}">%{badge_name}
+            Odznaka</a> (poziom %{current_level}) jest Twoja.
+        level_up:
+          email_intro: Gratulacje! Poziom na <a href="%{resource_url}">%{badge_name}
+            odznace</a> to poziom %{current_level}!
+          email_outro: Otrzymujesz to powiadomienie, ponieważ jesteś aktywnym użytkownikiem
+            naszej strony.
+          email_subject: Poziom na odznace %{badge_name} to poziom %{current_level}!
+          notification_title: Gratulacje! Na <a href="%{resource_path}">%{badge_name}
+            odznace</a> masz poziom %{current_level}!

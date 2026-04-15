@@ -1,0 +1,21 @@
+---
+cs:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Blahopřejeme! Získali jste odznak <a href="%{resource_path}">%{badge_name}</a>
+            (úroveň %{current_level}).
+          email_outro: Toto oznámení jste obdrželi, protože jste byli aktivní na naší
+            stránce.
+          email_subject: 'Získali jste nový odznak: %{badge_name}!'
+          notification_title: Gratulujeme! Získali jste <a href="%{resource_path}">%{badge_name}
+            odznak</a> (level %{current_level}).
+        level_up:
+          email_intro: Gratulujeme! Dosáhli jste úrovně %{current_level} <a href="%{resource_url}">%{badge_name}
+            odznaku</a>!
+          email_outro: Obdrželi jste toto oznámení, protože jste byli aktivní na naší
+            stránce.
+          email_subject: Dosáhli jste úrovně %{current_level} %{badge_name} odznaku!
+          notification_title: Gratulujeme! Dosáhli jste úrovně %{current_level} <a
+            href="%{resource_path}">%{badge_name} odznaku</a>!

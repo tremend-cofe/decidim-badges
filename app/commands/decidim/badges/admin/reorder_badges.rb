@@ -53,7 +53,11 @@ module Decidim
         end
 
         def publish_appearing_content_blocks
-          collection.where(published_at: nil).where.not(weight: nil).update_all(published_at: Time.current)
+          collection.where(published_at: nil).where.not(weight: nil).find_each do |badge|
+            badge.publish!
+
+            Decidim::Badges::PublishBadgeJob.perform_later(badge.id)
+          end
         end
         # rubocop:enable Rails/SkipsModelValidations
 

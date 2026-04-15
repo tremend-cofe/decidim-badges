@@ -1,7 +1,6 @@
 ---
-
 base_locale: en
-locales: [en]
+locales: [bg, cs, da, de, el, en, es, et, fi, fr, ga, hr, hu, it, lt, lv, mt, nl, pl, pt, ro, sk, sl, sr, sv]
 
 ignore_missing:
   - decidim.participatory_processes.scopes.global

@@ -1,0 +1,21 @@
+---
+da:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Tillykke! Du er blevet tildelt badget <a href="%{resource_path}">%{badge_name}
+            </a> (niveau%{current_level}).
+          email_outro: Du har modtaget denne underretning, fordi du har været aktiv
+            på vores websted.
+          email_subject: 'Du har fået en ny badge: %{badge_name}!'
+          notification_title: Tillykke! Du har optjent retten til <a href="%{resource_path}">%{badge_name}-badgen</a>
+            (level %{current_level}).
+        level_up:
+          email_intro: Tillykke! Du har nået niveau %{current_level} af <a href="%{resource_url}">%{badge_name}
+            badge</a>!
+          email_outro: Du har modtaget denne underretning, fordi du har været aktiv
+            på vores websted.
+          email_subject: Du har nået niveau %{current_level} af %{badge_name}-badgen!
+          notification_title: Tillykke! Du har nået niveau %{current_level} af <a
+            href="%{resource_path}">%{badge_name} badgen</a>!

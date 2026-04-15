@@ -1,0 +1,21 @@
+---
+sk:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Blahoželáme! Získali ste <a href="%{resource_path}">%{badge_name}
+            odznak</a> (úroveň %{current_level}).
+          email_outro: Toto oznámenie ste dostali, pretože ste vykonali aktivitu na
+            našom webovom sídle.
+          email_subject: 'Získali ste nový odznak: %{badge_name}!'
+          notification_title: Blahoželáme! Získali ste <a href="%{resource_path}">odznak
+            %{badge_name}</a> (úroveň %{current_level}).
+        level_up:
+          email_intro: Blahoželáme! Dosiahli ste úroveň %{current_level} v rámci <a
+            href="%{resource_url}">odznaku %{badge_name}</a>!
+          email_outro: Toto oznámenie ste dostali, pretože ste vykonali aktivitu na
+            našom webovom sídle.
+          email_subject: Dosiahli ste úroveň %{current_level} v rámci odznaku %{badge_name}!
+          notification_title: Blahoželáme! Dosiahli ste úroveň %{current_level} v
+            rámci <a href="%{resource_path}">odznaku %{badge_name}</a>!

@@ -1,0 +1,21 @@
+---
+sv:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Gratulerar! Du har tilldelats märket <a href="%{resource_path}">%{badge_name}</a>
+            (nivå %{current_level}).
+          email_outro: Du har fått denna avisering eftersom du har varit aktiv på
+            vår webbplats.
+          email_subject: 'Du har fått ett nytt märke: %{badge_name}!'
+          notification_title: Gratulerar! Du har tilldelats märket <a href="%{resource_path}">%{badge_name}</a>
+            (nivå %{current_level}).
+        level_up:
+          email_intro: Gratulerar! Du har nått nivå %{current_level} på märket <a
+            href="%{resource_url}">%{badge_name}</a>!
+          email_outro: Du har fått denna avisering eftersom du har varit aktiv på
+            vår webbplats.
+          email_subject: Du har nått nivå %{current_level} på märket %{badge_name}!
+          notification_title: Gratulerar! Du har nått nivå %{current_level} på märket
+            <a href="%{resource_path}">%{badge_name}</a>!

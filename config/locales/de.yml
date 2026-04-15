@@ -1,0 +1,22 @@
+---
+de:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Herzlichen Glückwunsch! Sie haben das <a href="%{resource_url}">%{badge_name}
+            Abzeichen</a> (level %{current_level}) verdient.
+          email_outro: Sie haben diese Benachrichtigung erhalten, weil Sie eine Aktivität
+            auf unserer Website unternommen haben.
+          email_subject: 'Sie haben ein neues Abzeichen verdient: %{badge_name}!'
+          notification_title: Herzlichen Glückwunsch! Sie haben das <a href="%{resource_path}">%{badge_name}
+            Abzeichen </a> (level %{current_level}) verdient.
+        level_up:
+          email_intro: Herzlichen Glückwunsch! Sie haben das Niveau %{current_level}
+            des <a href="%{resource_url}">%{badge_name} Abzeichens </a> erzielt!
+          email_outro: Sie haben diese Benachrichtigung erhalten, weil Sie eine Aktivität
+            auf unserer Website unternommen haben.
+          email_subject: Sie haben das Niveau %{current_level} des %{badge_name} Abzeichens
+            erzielt!
+          notification_title: Herzlichen Glückwunsch! Sie haben das Niveau %{current_level}
+            des <a href="%{resource_path}">%{badge_name} Abzeichens</a> erzielt!

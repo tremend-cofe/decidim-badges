@@ -1,0 +1,21 @@
+---
+hu:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Gratulálunk! Ön megkapta a <a href="%{resource_path}">%{badge_name}
+            jelvényt</a> (%{current_level} szint).
+          email_outro: Azért kapta ezt az értesítést, mert tevékenységet végzett a
+            weboldalunkon.
+          email_subject: 'Új jelvényt kapott: %{badge_name}!'
+          notification_title: 'Gratulálunk! Megkapta a(z) <a href="%{resource_path}">%{badge_name}
+            jelvényt</a> (szint: %{current_level}).'
+        level_up:
+          email_intro: Gratulálunk! Elérte a(z) <a href="%{resource_url}">%{badge_name}
+            jelvény</a> %{current_level}. szintjét!
+          email_outro: Azért kapta ezt az értesítést, mert tevékenységet végzett a
+            weboldalunkon.
+          email_subject: Elérte a(z) %{badge_name} jelvény %{current_level}. szintjét!
+          notification_title: Gratulálunk! Elérte a(z) <a href="%{resource_path}">%{badge_name}
+            jelvény</a> %{current_level}. szintjét!

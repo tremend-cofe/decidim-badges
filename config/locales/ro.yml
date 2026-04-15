@@ -1,0 +1,21 @@
+---
+ro:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Felicitări! Ați câștigat <a href="%{resource_path}">%{badge_name}
+            ecusonul </a> (nivelul %{current_level}).
+          email_outro: Ați primit această notificare deoarece aveți activitate pe
+            site-ul nostru.
+          email_subject: 'Ați obținut un ecuson nou: %{badge_name}!'
+          notification_title: Felicitări! Ați câștigat ecusonul<a href="%{resource_path}">%{badge_name}
+            </a> (level %{current_level}).
+        level_up:
+          email_intro: Felicitări! Ați atins nivelul %{current_level} pe ecusonul<a
+            href="%{resource_url}">%{badge_name}</a>!
+          email_outro: Ați primit această notificare deoarece aveți activitate pe
+            site-ul nostru.
+          email_subject: Ați atins nivelul %{current_level} pe ecusonul %{badge_name}!
+          notification_title: Felicitări! Ați atins nivelul %{current_level} pe ecusonul<a
+            href="%{resource_path}">%{badge_name}</a>!

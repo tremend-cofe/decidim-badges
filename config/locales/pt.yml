@@ -1,0 +1,21 @@
+---
+pt:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Parabéns! Ganhou o distintivo <a href="%{resource_path}">%{badge_name}</a>
+            (nível %{current_level}).
+          email_outro: Recebeu esta notificação devido à sua atividade no nosso sítio
+            Web.
+          email_subject: 'Ganhou um novo distintivo: %{badge_name}!'
+          notification_title: Parabéns! Ganhou o <a href="%{resource_path}"> distintivo
+            %{badge_name}</a> (level %{current_level}).
+        level_up:
+          email_intro: Parabéns! Alcançou o nível %{current_level} no distintivo <a
+            href="%{resource_url}">%{badge_name} </a>!
+          email_outro: Recebeu esta notificação devido à sua atividade no nosso sítio
+            Web.
+          email_subject: Alcançou o nível %{current_level} no distintivo %{badge_name}!
+          notification_title: Parabéns! Alcançou o nível %{current_level} no distintivo
+            <a href="%{resource_path}">%{badge_name} </a>!

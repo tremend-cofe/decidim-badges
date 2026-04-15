@@ -1,0 +1,21 @@
+---
+el:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Συγχαρητήρια! Κερδίσατε το σήμα <a href="%{resource_path}">%{badge_name}
+            </a> (επίπεδο %{current_level}).
+          email_outro: Λάβατε αυτήν την ειδοποίηση, επειδή πραγματοποιήσατε κάποια
+            δραστηριότητα στον ιστότοπό μας.
+          email_subject: 'Κερδίσατε ένα νέο σήμα: %{badge_name}!'
+          notification_title: Συγχαρητήρια! Κερδίσατε το <a href="%{resource_path}">σήμα
+            %{badge_name}</a> (επίπεδο %{current_level}).
+        level_up:
+          email_intro: Συγχαρητήρια! Φτάσατε στο επίπεδο %{current_level} στο <a href="%{resource_url}">σήμα
+            %{badge_name}</a>!
+          email_outro: Λάβατε αυτήν την ειδοποίηση, επειδή πραγματοποιήσατε κάποια
+            δραστηριότητα στον ιστότοπό μας.
+          email_subject: Φτάσατε στο επίπεδο %{current_level} στο σήμα %{badge_name}!
+          notification_title: Συγχαρητήρια! Φτάσατε στο επίπεδο %{current_level} στο
+            <a href="%{resource_path}">σήμα %{badge_name}</a>!

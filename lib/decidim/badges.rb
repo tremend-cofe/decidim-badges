@@ -66,6 +66,11 @@ module Decidim
       registry.register(name, &)
     end
 
+    # Public: Unregisters a new BadgeManifest.
+    def self.unregister_manifest(name)
+      registry.unregister(name)
+    end
+
     def self.validate!(user:, participatory_space: nil, component: nil)
       raise ArgumentError, "The Organization mismatch in badge" if participatory_space.present? && user.organization != participatory_space.organization
       raise ArgumentError, "The Organization mismatch in badge" if component.present? && user.organization != component.organization

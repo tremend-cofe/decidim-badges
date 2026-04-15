@@ -1,0 +1,21 @@
+---
+hr:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Čestitamo! Osvojili ste značku <a href="%{resource_path}">%{badge_name}
+            </a> (razina %{current_level}).
+          email_outro: Primili ste ovu obavijest jer ste bili aktivni na našim internetskim
+            stranicama.
+          email_subject: 'Dobili ste novu značku: %{badge_name}!'
+          notification_title: Čestitamo! Dobili ste značku <a href="%{resource_path}">%{badge_name}
+            </a> (razina %{current_level}).
+        level_up:
+          email_intro: Čestitamo! Dostigli ste razinu %{current_level} na znački <a
+            href="%{resource_url}">%{badge_name} </a>!
+          email_outro: Primili ste ovu obavijest jer ste bili aktivni na našim internetskim
+            stranicama.
+          email_subject: Dostigli ste razinu %{current_level} na znački %{badge_name}!
+          notification_title: Čestitamo! Dostigli ste razinu %{current_level} na znački
+            <a href="%{resource_path}">%{badge_name} </a>!

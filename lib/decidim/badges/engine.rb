@@ -59,15 +59,18 @@ module Decidim
               comments = Decidim::Comments::Comment.not_deleted.not_hidden.where(**conditions)
 
               if component.present?
-                root_commentables = begin
-                  component.manifest.data_portable_entities.collect do |entity|
-                    entity.constantize.where(component: component).all
+                root_commentables = component.manifest.data_portable_entities.collect do |entity|
+                  component_association = entity.constantize.reflect_on_all_associations.select { |a| a.class_name == "Decidim::Component" }.first
+                  if component_association.present?
+                    entity.constantize.where({ component_association.name => component }).all
+                  else
+                    []
                   end
-                rescue StandardError
-                  []
                 end
 
-                comments.where(root_commentable: root_commentables)
+                root_commentables = nil if root_commentables.blank?
+
+                comments = comments.where(root_commentable: root_commentables)
               end
 
               comments.distinct.count(:decidim_root_commentable_id)

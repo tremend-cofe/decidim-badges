@@ -1,0 +1,19 @@
+---
+et:
+  decidim:
+    events:
+      badges:
+        badge_earned:
+          email_intro: Õnnitleme! Olete teeninud tunnustusmärgi <a href="%{resource_path}">%{badge_name}
+            </a>(tase %{current_level}).
+          email_outro: Saite selle teate, kuna tegite meie veebisaidil toimingu.
+          email_subject: 'Teenisite uue tunnustusmärgi: %{badge_name}!'
+          notification_title: Õnnitleme! Olete teeninud <a href="%{resource_path}">tunnustusmärgi
+            %{badge_name}</a> (tase %{current_level}).
+        level_up:
+          email_intro: Õnnitleme! Olete teeninud taseme %{current_level} <a href="%{resource_url}">
+            tunnustusmärgi %{badge_name}</a>!
+          email_outro: Saite selle teate, kuna tegite meie veebisaidil toimingu.
+          email_subject: Olete teeninud taseme %{current_level} tunnustusmärgi %{badge_name}!
+          notification_title: Õnnitleme! Olete teeninud taseme %{current_level} <a
+            href="%{resource_path}"> tunnustusmärgi %{badge_name}</a>!
