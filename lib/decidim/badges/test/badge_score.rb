@@ -77,7 +77,7 @@ shared_examples "sending level up notifications" do
 
   context "and was previously granted" do
     let!(:badge) { create(:badge, :published, manifest_name:, organization:, participatory_space: nil) }
-    let!(:badge_score) { create(:badge_score, badge:, user:, value: count, level: 1) }
+    let!(:badge_score) { create(:badge_badge_score, badge:, user:, value: count, level: 1) }
     let(:count) { 4 }
 
     it "dispatches a Level up badge" do
@@ -94,7 +94,7 @@ shared_examples "sending level up notifications" do
 
   context "and was previously granted" do
     let!(:badge) { create(:badge, :published, manifest_name:, organization:, participatory_space: nil) }
-    let!(:badge_score) { create(:badge_score, badge:, user:, value: count, level: 3) }
+    let!(:badge_score) { create(:badge_badge_score, badge:, user:, value: count, level: 3) }
     let(:count) { 7 }
 
     it "skips displatching the level up event" do

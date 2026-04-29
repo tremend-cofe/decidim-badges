@@ -114,7 +114,7 @@ module Decidim
           Decidim::Badges.register_manifest(:proposal_created) do |badge|
             badge.reset = lambda { |author, participatory_space, component|
               conditions = { decidim_coauthorships: { author: } }
-              conditions.merge!(component: component) if component.present?
+              conditions.merge!(component:) if component.present?
               conditions.merge!(component: { participatory_space: }) if participatory_space.present?
 
               Decidim::Proposals::Proposal
@@ -147,7 +147,7 @@ module Decidim
           Decidim::Badges.register_manifest(:proposal_accepted) do |badge|
             badge.reset = lambda { |author, participatory_space, component|
               conditions = { decidim_coauthorships: { author: } }
-              conditions.merge!(component: component) if component.present?
+              conditions.merge!(component:) if component.present?
               conditions.merge!(component: { participatory_space: }) if participatory_space.present?
 
               Decidim::Proposals::Proposal
@@ -175,7 +175,7 @@ module Decidim
           Decidim::Badges.register_manifest(:proposal_voted) do |badge|
             badge.reset = lambda { |author, participatory_space, component|
               conditions = { votes: { author: } }
-              conditions.merge!(component: component) if component.present?
+              conditions.merge!(component:) if component.present?
               conditions.merge!(component: { participatory_space: }) if participatory_space.present?
 
               Decidim::Proposals::Proposal
@@ -202,7 +202,7 @@ module Decidim
           Decidim::Badges.register_manifest(:meeting_created) do |badge|
             badge.reset = lambda { |author, participatory_space, component|
               conditions = { author: }
-              conditions.merge!(component: component) if component.present?
+              conditions.merge!(component:) if component.present?
               conditions.merge!(decidim_components: { participatory_space: }) if participatory_space.present?
 
               Decidim::Meetings::Meeting

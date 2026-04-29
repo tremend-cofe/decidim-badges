@@ -24,7 +24,7 @@ rubocop:
   stage: build
   tags:
     - citi-runner
-  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.32.0-test
   artifacts:
     name: rubocop
     when: always
@@ -37,7 +37,7 @@ rubocop:
 
 rubycritic:
   stage: build
-  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.32.0-test
   allow_failure: true
   tags:
     - citi-runner
@@ -46,7 +46,7 @@ rubycritic:
     - rubycritic --no-browser app config lib
 
 .test:
-  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.31.0-test
+  image: registry.dhs.tech.ec.europa.eu/comm/citizens/comm-citi-reference:0.32.0-test
   tags:
     - citi-runner
   stage: build
@@ -77,4 +77,4 @@ rubycritic:
 test stable:
   extends: .test
   variables:
-    DECIDIM_VERSION: "~> 0.31.0"
+    DECIDIM_VERSION: "~> 0.32.0"

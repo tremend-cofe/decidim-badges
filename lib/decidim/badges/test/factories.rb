@@ -36,7 +36,7 @@ FactoryBot.define do
     end
   end
 
-  factory :badge_score, class: "Decidim::Badges::BadgeScore" do
+  factory :badge_badge_score, class: "Decidim::Badges::BadgeScore" do
     badge { create(:badge) }
     user { create(:user, :confirmed, organization: badge.organization) }
     value { 5 }

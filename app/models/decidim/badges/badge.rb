@@ -8,6 +8,7 @@ module Decidim
       include Decidim::Traceable
       include Decidim::Loggable
       include Decidim::Publicable
+
       # include Decidim::SoftDeletable
 
       belongs_to :organization, class_name: "Decidim::Organization", foreign_key: :decidim_organization_id

@@ -8,7 +8,7 @@ module Decidim
       describe CreateBadge do
         subject { described_class.new(form) }
         let(:organization) { create(:organization) }
-        let(:user) { create(:user, :admin, :confirmed, organization: organization) }
+        let(:user) { create(:user, :admin, :confirmed, organization:) }
         let(:form) do
           BadgeForm.from_params(
             name: Decidim::Faker::Localized.name,
